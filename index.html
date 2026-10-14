@@ -93,7 +93,16 @@ h3{font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.0
 .quote{border-left:3px solid var(--gold);padding:10px 14px;background:var(--sleeve);font-family:var(--f-mono);font-size:13px;line-height:1.6;white-space:pre-wrap;max-width:70ch;color:var(--bone);overflow-x:auto}
 .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
 .thumbs img{width:100%;border:1px solid var(--rule);cursor:zoom-in}
-.boards img{aspect-ratio:8/9;object-fit:cover}
+.thumbs{align-items:start} .thumbs figure{margin:0} .thumbs figcaption{color:var(--dim);margin-top:4px;font-size:11px;line-height:1.4}
+.reel.tall{grid-auto-columns:minmax(150px,15%)} .reel.tall img{aspect-ratio:9/16}
+.reel.portrait{grid-auto-columns:minmax(180px,19%)} .reel.portrait img{aspect-ratio:4/5}
+.yt.tall{aspect-ratio:9/16;max-width:380px;margin:0 auto} .yt.portrait{aspect-ratio:4/5;max-width:480px;margin:0 auto}
+.soonbox{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.soonbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35}
+.soonbox div{position:relative;color:var(--gold);border:1px solid var(--gold);padding:10px 14px;background:rgba(15,14,11,.75);text-align:center}
+button.btn{background:none;color:var(--bone);cursor:pointer}
+.pager{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:56px;border-top:1px solid var(--rule);padding-top:16px;flex-wrap:wrap}
+.pager a{text-decoration:none;color:var(--dim)} .pager a:hover,.pager a:focus-visible{color:var(--gold)}
 .channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .chan{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--rule);background:var(--sleeve);text-decoration:none;min-width:0}
 .chan:hover{border-color:var(--gold)} .chan .n{color:var(--gold)} .chan h3{font-size:34px} .chan p{margin:0;color:var(--dim)} .chan .go{margin-top:auto;padding-top:8px}
@@ -109,7 +118,7 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
   .mstep{grid-template-columns:1fr;gap:10px}
   .traits li{grid-template-columns:96px 1fr}
   nav{gap:12px;font-size:15px}
-  .reel{grid-auto-columns:72%}
+  .reel{grid-auto-columns:72%} .reel.tall{grid-auto-columns:42%} .reel.portrait{grid-auto-columns:55%}
 }
 @media (prefers-reduced-motion:reduce){.rec .art img{transition:none}}
 </style>
@@ -182,63 +191,27 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
 
 <main id="film" hidden>
   <div class="hero filmhero">
-    <img class="poster" src="assets/jah-jah-blues/frames/f04_52.jpg" alt="">
-    <video id="filmVid" src="assets/jah-jah-blues/loop.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+    <img class="poster" id="fPoster" src="" alt="">
+    <video id="filmVid" autoplay muted loop playsinline aria-hidden="true"></video>
     <div class="wrap">
-      <div class="mono kicker">ZS-02 · Felt stop-motion · reggae + jump blues · 3:07</div>
-      <h1 class="mast">JAH JAH<br>BLUES</h1>
-      <p class="lede">A little felt rain cloud called the Blues follows Zion Skank around a gray felt town. Every chorus he dances, colour stitches back into the streets, and by the end the cloud is dancing too, raining on a garden.</p>
-      <div class="actions">
-        <a class="btn gold" href="https://www.youtube.com/watch?v=qA_g-JoA8RY" target="_blank" rel="noopener">Watch on YouTube</a>
-        <a class="btn" href="#making">How it was made</a>
-      </div>
-      <div class="ledger">
-        <div><div class="mono k">Song</div><div class="v">3:07 · Suno · about 90 BPM · sung in patois</div></div>
-        <div><div class="mono k">Boards</div><div class="v">14 boards · 8 stills each</div></div>
-        <div><div class="mono k">Clips</div><div class="v">14 motion clips · 10 lip-sync clips</div></div>
-        <div><div class="mono k">Made</div><div class="v">October 2–3, 2026</div></div>
-      </div>
+      <div class="mono kicker" id="fKick"></div>
+      <h1 class="mast" id="fTitle"></h1>
+      <p class="lede" id="fLede"></p>
+      <div class="actions" id="fActions"></div>
+      <div class="ledger" id="fLedger"></div>
     </div>
   </div>
 
   <section><div class="wrap">
-    <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/qA_g-JoA8RY" title="Jah Jah Blues on YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-    <div class="sechead" style="margin-top:40px"><h2>The film</h2><span class="mono soon">16 frames from the finished cut</span></div>
+    <div id="fWatch"></div>
+    <div class="sechead" style="margin-top:40px"><h2>The film</h2><span class="mono soon" id="fReelNote"></span></div>
     <div class="reel" id="reel"></div>
   </div></section>
 
   <section id="making"><div class="wrap">
     <div class="sechead"><h2>How it was made</h2><span class="mono soon">In the order it happened</span></div>
-    <div class="making">
-      <div class="mstep"><div><div class="mono n">Step 1</div><h3>The song</h3></div><div>
-        <p>James wanted reggae as the backbone with a jump-blues kick. The first draft leaned too blues, so the second kept the same lyrics in Jamaican patois and put roots reggae first in the style prompt. Suno ran long at 3:07 and James faded the ending by hand.</p>
-        <div class="quote">Conscious roots reggae fused with upbeat jump blues: a deep, bass-forward one-drop reggae groove carrying exuberant 1940s horn-swing energy … Soulful, gravelly older Jamaican male lead vocal singing in patois, full of warmth and humor; joyful male backing group with big call-and-response choruses.</div>
-        <p style="margin-top:12px">It opens on a knock at the door:</p>
-        <div class="quote">Knock knock!
-Who dat?
-Jah Jah Blues!
-Come een, come een, wi have room fi yuh!</div>
-      </div></div>
-
-      <div class="mstep"><div><div class="mono n">Step 2</div><h3>The cast</h3></div><div>
-        <p>Zion in stitched felt, the Blues cloud (big four-hole button eyes, no arms, yarn rain), three skeleton neighbours (no sunglasses: red shades belong to Zion alone) and a town that is half gray, half colour.</p>
-        <div class="thumbs" id="refs"></div>
-      </div></div>
-
-      <div class="mstep"><div><div class="mono n">Step 3</div><h3>Fourteen boards</h3></div><div>
-        <p>Each board is one image holding eight 16:9 stills, written against a timing map of the song so every board covers its own stretch of music. Zion stays the only colour until the choruses start bringing it back.</p>
-        <div class="thumbs boards" id="boards"></div>
-      </div></div>
-
-      <div class="mstep"><div><div class="mono n">Step 4</div><h3>Motion and lip sync</h3></div><div>
-        <p>Every board became a short motion clip, and ten singing shots were made from the song's own vocal so Zion's felt jaw opens on the words.</p>
-      </div></div>
-
-      <div class="mstep"><div><div class="mono n">Step 5</div><h3>The edit</h3></div><div>
-        <p>Claude cut the clips to the song and added the lyrics and style layer. Version 2 fixed a glitching door arm and a lip-sync stretch around 0:38 to 0:44. Four vertical shorts were cut from it too.</p>
-        <div class="credits mono"><span>Direction · James</span><span>Production · Claude</span><span>Song · Suno</span></div>
-      </div></div>
-    </div>
+    <div class="making" id="fSteps"></div>
+    <div class="pager mono" id="fPager"></div>
   </div></section>
 </main>
 
@@ -247,47 +220,207 @@ Come een, come een, wi have room fi yuh!</div>
 <dialog id="lb"><img id="lbImg" alt=""></dialog>
 
 <script>
+const ASSETS={"neon-duppy-dance":{"shape":"wide","frames":["f00_2","f01_9","f02_15","f03_21","f04_27","f05_34","f06_40","f07_46","f08_52","f09_59","f10_65","f11_71"],"refs":[["ref-01","Neon Skeleton DJ Turnaround Collage"]],"boards":[["board-01","Neon Skeleton Dancehall Splash"],["board-02","Neon Skeleton Reggae Rave"],["board-03","Neon Skeleton Dancehall Groove"],["board-04","Neon Reggae Skeleton Singer"],["board-05","Neon Skeleton Basswave Dance Party"],["board-06","Neon Skeleton Sound System Dance"],["board-07","Neon Skeleton Reggae Street Party"],["board-08","Neon Ghost Reggae Party"],["board-09","Neon Ghost Dancehall Party"]]},"sound-system-mech":{"shape":"portrait","frames":["f00_1","f01_5","f02_9","f03_13","f04_17","f05_21","f06_25","f07_29"],"refs":[["ref-01","Meshy Zion full body first look"],["ref-02","Meshy Zion set 2 A-pose Halloween pilot"]],"boards":[]},"fractal-zion":{"shape":"wide","frames":["f00_0","f01_2","f02_4","f03_6","f04_8","f05_10","f06_11","f07_13"],"refs":[["ref-01","Fractal Reggae Skull Portrait"],["ref-02","Fractal Reggae Skeleton Portrait"],["ref-03","mandelbulb_reference_frame"]],"boards":[]},"bloodstream":{"shape":"tall","frames":["f00_2","f01_8","f02_13","f03_19","f04_24","f05_30","f06_35","f07_40","f08_46","f09_51","f10_57","f11_62"],"refs":[["ref-01","Miss Ivy’s Six Studio Expressions"],["ref-02","Nanobot Adventures in Six Panels"],["ref-03","Zion Skank_ Six-Panel Character Pose Sheet"],["ref-04","bloodstream_blender_still"]],"boards":[["board-01","Zion’s Nanobot Tea Adventure"],["board-02","Nanobot Journey Through the Artery"],["board-03","Clearing the Way to Joy"],["board-04","Miss Ivy’s 110th Birthday Celebration"]]},"who-you-callin-scary":{"shape":"tall","frames":["f00_2","f01_8","f02_13","f03_19","f04_25","f05_30","f06_36","f07_41","f08_47","f09_52","f10_58","f11_64"],"refs":[["ref-01","Rasta Skeleton Puppet Character Turnaround"],["ref-02","Six-Panel Vintage Ghost Puppet Sheet"],["ref-03","Four Views of a Haunted House"]],"boards":[["board-01","A Skeleton’s Haunted House Move"],["board-02","Skeleton’s Haunted House Surprise"],["board-03","Chill Skeleton’s Haunted House Groove"],["board-04","Ghostly Bedtime Dance Party"]]},"respawn":{"shape":"wide","frames":["f00_8","f01_26","f02_44","f03_61","f04_79","f05_97","f06_115","f07_132","f08_150","f09_168","f10_186","f11_203"],"refs":[["ref-01","Zion Hip Hop Clean"],["ref-02","ref-02 Zion Poses"],["ref-03","RESPAWN LEVEL MAP"],["ref-04","ref-03 Skank Island"],["ref-05","ref-04 Volcano"],["ref-06","ref-05 Rooftop and Ice"],["ref-07","ref-06 Big Boulda"],["ref-08","ref-07 Continue"]],"boards":[["board-01","Board 01 - Press Start"],["board-02","Board 02 - Skank Island"],["board-03","Board 03 - Bounce Pad"],["board-04","Board 04 - Dominoes"],["board-05","Board 05 - Rooftop Run"],["board-06","Board 06 - Skull Keeps Running"],["board-07","Board 07 - Lava"],["board-08","Board 08 - Record Press"],["board-09","Board 09 - Ice Peak"],["board-10","Board 10 - Ice Cube"],["board-11","Board 11 - Continue"],["board-12","Board 12 - Big Boulda"],["board-13","Board 13 - Life 99"],["board-14","Board 14 - Every Life"],["board-15","Board 15 - Victory Lap"],["board-16","Board 16 - New Record"]]},"multiverse":{"shape":"wide","frames":["f00_1","f01_5","f02_9","f03_13","f04_17","f05_20","f06_24","f07_28","f08_32","f09_35","f10_39","f11_43"],"refs":[],"boards":[]},"one-drop":{"shape":"wide","frames":["f00_9","f01_29","f02_49","f03_69","f04_89","f05_109","f06_130","f07_150","f08_170","f09_190","f10_210","f11_230"],"refs":[["ref-01","ref-01-zion-turnaround"],["ref-02","ref-02-zion-faces"],["ref-03","ref-03-zion-poses"],["ref-04","ref-04-mute"],["ref-05","ref-05-robots"],["ref-06","ref-06-mech"],["ref-07","ref-07-city"],["ref-08","ref-08-locations"]],"boards":[["board-01","Board 01 - City of Silence"],["board-02","Board 02 - Drop the Needle"],["board-03","Board 03 - Grey Pon Everything"],["board-04","Board 04 - Wake Up"],["board-05","Board 05 - The First Drop"],["board-06","Board 06 - Everybody Get Down"],["board-07","Board 07 - The Army"],["board-08","Board 08 - Transform"],["board-09","Board 09 - Mech Battle"],["board-10","Board 10 - Face to Face"],["board-11","Board 11 - The Duel"],["board-12","Board 12 - Aftermath"],["board-13","Board 13 - Every Heart"],["board-14","Board 14 - Robot an di Rude Boy"],["board-15","Board 15 - Whole World"],["board-16","Board 16 - Music Is Good"]]},"shake-it-loose-live":{"shape":"wide","frames":["f00_12","f01_38","f02_63","f03_89","f04_115","f05_141","f06_167","f07_192","f08_218","f09_244","f10_270","f11_295"],"refs":[],"boards":[["board-01","_original thumbnail v2"],["board-02","actionboard #1"],["board-03","actionboard #2"],["board-04","actionboard #3"],["board-05","actionboard 4"],["board-06","aerial behind crowd"],["board-07","band and crowd ending"],["board-08","band best"],["board-09","bassist"],["board-10","behind band show end"],["board-11","crowd actionboard"],["board-12","crowd front"],["board-13","drummer action"],["board-14","drummer"],["board-15","guitar medium"],["board-16","guitar single"],["board-17","guitarist action"],["board-18","medium shot for lipsync"],["board-19","zion singing"]]},"jah-jah-blues":{"shape":"wide","frames":["f00_5","f01_17","f02_29","f03_40","f04_52","f05_64","f06_75","f07_87","f08_99","f09_110","f10_122","f11_134","f12_145","f13_157","f14_169","f15_180"],"refs":[["zion-skank-stitch-for-jah-jah-blues","Zion in stitched felt"],["ref-01-zion","Zion's expressions"],["ref-02-blues","The Blues"],["ref-03-neighbors-v2","The neighbours"],["ref-04-town","The town, gray and colour"]],"boards":[["board-01","Board 1"],["board-02","Board 2"],["board-03","Board 3"],["board-04","Board 4"],["board-05","Board 5"],["board-06","Board 6"],["board-07","Board 7"],["board-08","Board 8"],["board-09","Board 9"],["board-10","Board 10"],["board-11","Board 11"],["board-12","Board 12"],["board-13","Board 13"],["board-14","Board 14"]]}};
 const FILMS=[
  {n:"ZS-10",slug:"neon-duppy-dance",t:"Neon Duppy Dance",len:"1:14",style:"Neon Halloween · spooky ska",d:"A neon Kingston street at midnight. The sound system wakes and the ghosts come out to dance."},
- {n:"ZS-09",slug:"sound-system-mech",t:"Sound System Mech",len:"0:30",style:"Built in code · dub",d:"Zion climbs into his sound system. Every woofer pumps to the real bass line.",chip:""},
+ {n:"ZS-09",slug:"sound-system-mech",t:"Sound System Mech",len:"0:30",style:"Built in code · dub",d:"Zion climbs into his sound system. Every woofer pumps to the real bass line."},
  {n:"ZS-08",slug:"fractal-zion",t:"Fractal Zion",len:"0:14",style:"Real Mandelbulb math",d:"A dive into a 3D fractal, rendered from the equation in code.",chip:"On X"},
  {n:"ZS-07",slug:"bloodstream",t:"Bloodstream",len:"1:06",style:"Reggae amapiano · vertical",d:"Tiny Zion rides a red blood cell with a nanobot crew, inside a 110-year-old grandmother who's dancing."},
  {n:"ZS-06",slug:"who-you-callin-scary",t:"Who You Callin' Scary?",len:"1:07",style:"Puppet stop-motion · dark dub",d:"Zion moves into a haunted house. The ghost tries to scare him, then sees he's a skeleton and screams."},
  {n:"ZS-05",slug:"respawn",t:"Respawn",len:"3:32",style:"Video game · reggae hip hop",d:"Zion keeps dying and keeps coming back, until he beats the boss on his last life."},
  {n:"ZS-04",slug:"multiverse",t:"Zion Skank Multiverse",len:"0:45",style:"Trailer · 20 art styles",d:"One skeleton, twenty worlds, cut on the bar."},
  {n:"ZS-03",slug:"one-drop",t:"One Drop",len:"4:00",style:"Anime · reggae + punk",d:"Robots run the city and music is banned. Zion frees them by teaching them to skank.",chip:"On X"},
- {n:"ZS-02",slug:"jah-jah-blues",t:"Jah Jah Blues",len:"3:07",style:"Felt stop-motion · reggae + jump blues",d:"A felt rain cloud follows Zion around a gray town until it dances too.",chip:"On YouTube",open:true},
- {n:"ZS-01",slug:"shake-it-loose-live",t:"Shake It Loose — Live!",len:"5:06",style:"Live performance",d:"James on stage as Zion Skank. Since recut twice, by Claude and by ChatGPT; ChatGPT's cut premieres on YouTube on January 27.",chip:"On YouTube",yt:"https://www.youtube.com/watch?v=LPfU3dr9rn0"}
+ {n:"ZS-02",slug:"jah-jah-blues",t:"Jah Jah Blues",len:"3:07",style:"Felt stop-motion · reggae + jump blues",d:"A felt rain cloud follows Zion around a gray town until it dances too.",chip:"On YouTube"},
+ {n:"ZS-01",slug:"shake-it-loose-live",t:"Shake It Loose — Live!",len:"5:06",style:"Concert film",d:"Zion and his skeleton band play a full show at dusk. Since recut twice, by Claude and by ChatGPT.",chip:"On YouTube"}
 ];
+
+/* One entry per film page. [[refs]] and [[boards]] drop in that film's image grids. */
+const PAGES={
+"neon-duppy-dance":{title:"NEON<br>DUPPY DANCE",kick:"ZS-10 · Neon Halloween · spooky ska · 1:14",poster:"frames/f05_34.jpg",
+ lede:"Midnight on a wet neon street in Kingston. The sound system wakes up, Zion skanks in a purple cloak and a glowing ribcage tee, and by the last hook the duppies (Jamaican ghosts) are dancing with him.",
+ ledger:[["Song","1:14 · Suno · spooky ska · 124 BPM"],["Boards","9 boards, one per shot"],["Clips","5 dance clips · 4 lip-sync clips"],["Made","October 13, 2026"]],
+ steps:[
+  ["The song",`<p>James made "spooky ska" in Suno for Halloween: ska and dub, a laugh up top, a dub break in the middle. Claude measured it at 124 BPM, and every cut in the film sits on that grid.</p><div class="quote">Duppy dance, duppy dance
+Bones a rattle when the bass go down
+Duppy dance, duppy dance
+Neon ghost inna Kingston town</div>`],
+  ["Change of plan",`<p>It started as a 3D Zion dancing motion-captured moves in Blender. The Halloween model wouldn't rig and the neon look took 15 seconds a frame, so James switched to the usual route: stills, then video. ChatGPT mapped the song into nine shots cut on the bar, each marked as a singing shot (mic in hand, lip sync) or a dance shot (hands free).</p>[[refs]]`],
+  ["Nine boards",`<p>One board per shot, made in ChatGPT from the character sheet: purple cloak, glowing green ribs, red shades, a wall of speakers ringed in magenta and cyan.</p>[[boards]]`],
+  ["Clips and lip sync",`<p>Five dance clips, and four singing shots made only as lip sync, each from its own window of the song so Zion's jaw follows the real vocal. Lesson learned on this one: two plain clips of singing shots were wasted, so singing shots now get lip sync and nothing else.</p>`],
+  ["The edit",`<p>Version 1 was a straight paste-up, and James said so. Version 2 added the style layer in code: rapid eighth-note flashes under the title, zoom punches on the kick, RGB split and bloom, a white flash and shake on the bass drop, neon lyrics, echo trails and stutter freezes on "Rattle". Version 3 cuts away when Zion's mouth kept moving after a line ended. A vertical cut follows his red shades for X.</p>`]],
+ credits:["Direction · James","Song · Suno","Shot plan · ChatGPT","Production · Claude"]},
+
+"sound-system-mech":{title:"SOUND SYSTEM<br>MECH",kick:"ZS-09 · Built in code · dub · 0:30",
+ lede:"Zion's sound system builds itself around him piece by piece, he climbs into the glass canopy, and the mech skanks to a dub James made for it. Every woofer pumps to the real bass line.",
+ ledger:[["Song","0:30 · James's \"mech dub\" · 86 BPM"],["Zion","3D model from Meshy"],["Mech","24 parts, built in Three.js"],["Made","October 11, 2026"]],
+ steps:[
+  ["A 3D Zion",`<p>Claude first tried building Zion out of nothing but math shapes. After twenty rounds he still looked off, so James took a month of Meshy, which turns one character image into a clean 3D model.</p>[[refs]]`],
+  ["The mech, in code",`<p>The mech is a web page: 24 parts drawn in Three.js, listed like a CAD drawing. You can isolate any part, explode the whole thing apart, or replay the build. There's an interactive version too.</p>`],
+  ["Woofers that listen",`<p>The song's bass level drives the speakers, so they pump to the real bass line. The first version's cones read wrong; version 2 rebuilt them as proper drivers (flat cone, yellow ring, black dust cap, gold basket and bolts) and gave the canopy real reflective glass.</p>`],
+  ["Timed to the dub",`<p>The build lands Zion in the cockpit on the beat at 8.5 seconds: PILOT ON BOARD. Close-up on the speakers, then the mech freezes in the bass breakdown while Zion looks around, and slams back in on the drop with a hop and a camera shake.</p>`],
+  ["Recording it",`<p>A script steps the page one frame at a time, about 1.7 seconds per frame, and the frames are joined to the song. No video generator anywhere in this one.</p>`]],
+ credits:["Direction · James","Song · James","3D model · Meshy","Code and edit · Claude"]},
+
+"fractal-zion":{title:"FRACTAL<br>ZION",kick:"ZS-08 · Real Mandelbulb math · 0:14",
+ lede:"Push into Zion's eye socket and there's a whole universe inside: a real 3D fractal, rendered from its equation, diving deeper until a tiny Zion appears in a gold portal and grows back into the first frame.",
+ ledger:[["Math","Mandelbulb, power 8 · z → z⁸ + c"],["Render","Ray marcher written in Python"],["Dive","288 frames, 900× zoom"],["Made","October 9, 2026"]],
+ steps:[
+  ["The idea",`<p>James's idea: Zion blends into a real 3D Mandelbulb and we zoom in like a Mandelbrot dive. Claude's pitch for the shape of it: open on Zion's face made of fractal bone and push into his eye socket.</p>`],
+  ["The fractal, from scratch",`<p>No 3D software. Claude wrote its own ray marcher in Python and pointed the camera down a path picked by searching for where the detail stays rich all the way in. A 900× zoom with a slow orbit and roll; past about 4,000× it melts into smooth mush.</p>`],
+  ["Two portraits",`<p>A frame from the dive went to ChatGPT, which made two fractal-bone portraits of Zion: shades on, and shades pushed up.</p>[[refs]]`],
+  ["The loop",`<p>Shades on with the title, cut to shades up, push into the socket where the Mandelbulb sits like an iris, dive. The caption z → z⁸ + c turns into z → Zion, and a tiny Zion grows out of a gold portal until he is the opening frame, so it loops without a seam.</p>`],
+  ["Finish",`<p>The export was silent. James added a dub loop and effects in CapCut and posted it on X with his own clip of Zion laughing at the end.</p>`]],
+ credits:["Idea and finish · James","Portraits · ChatGPT","Render and edit · Claude"]},
+
+"bloodstream":{title:"BLOOD<br>STREAM",kick:"ZS-07 · Reggae amapiano · vertical · 1:06",
+ lede:"On her 110th birthday Miss Ivy tips a vial of nanobots into her bush tea. Tiny Zion rides down with the crew, they break up a plaque wall on the count, and that afternoon she's dancing at her own party.",
+ ledger:[["Song","1:06 · Suno · reggae amapiano · 110 BPM"],["Boards","4 boards"],["Clips","4 motion clips · 2 lip-sync clips"],["Made","October 9, 2026"]],
+ steps:[
+  ["The story",`<p>The first of a series about near-future tech shown as something that helps. James's notes set the rules: no needles, the nanobots are a small friendly work crew and never a swarm, Miss Ivy chooses it, and she stays visibly 110. The end card quotes Ray Kurzweil's prediction of nanobots that repair us from the inside.</p>`],
+  ["The song",`<p>Reggae amapiano with the log drum pulsing like a heartbeat. Zion sings the ride; Miss Ivy takes the last hook.</p><div class="quote">Hundred an' ten an' mi still can skank
+Hundred an' ten an' mi still can skank
+Riding inna di bloodstream
+Thank yuh, likkle crew, thank yuh!</div>`],
+  ["The cast",`<p>Miss Ivy, the nanobot crew and a small, glossy Zion. Claude also built the artery in Blender for reference stills; at nearly a minute a frame, animating it was out.</p>[[refs]]`],
+  ["Four boards",`<p>One board for each fifteen-second clip: morning tea, the ride, the plaque wall, the party.</p>[[boards]]`],
+  ["Clips and the edit",`<p>Four motion clips and two lip syncs, one for Zion's hook and one for Ivy's, each lined up to the song to the frame. The edit cuts around a moment where Zion starts talking, and the stop-time count lands as big cyan ONE! TWO!</p>`]],
+ credits:["Direction · James","Song · Suno","Timing · Codex","Clips · Minimax","Production · Claude"]},
+
+"who-you-callin-scary":{title:"WHO YOU<br>CALLIN' SCARY?",kick:"ZS-06 · Puppet stop-motion · dark dub · 1:07",
+ lede:"Zion moves into a creaky haunted house. The ghost tries everything (flickering lights, slamming doors), Zion doesn't flinch, and when the ghost finally sees he's a skeleton, it's the ghost that screams. They end up friends, the ghost in Zion's red shades.",
+ ledger:[["Song","1:05 · Suno · dark dub reggae"],["Boards","4 boards"],["Clips","8 motion clips · 2 lip-sync clips"],["Made","October 8, 2026"]],
+ steps:[
+  ["The format",`<p>The first Zion mini-drama: about a minute, vertical, one situation, one escalation, one twist.</p>`],
+  ["The song",`<p>James made a dark dub track in Suno built around one question.</p><div class="quote">Who you callin scary?
+Who you callin scary?
+Lights a flicker, door a slam, mi nah worry
+Ghost inna di house, but di ghost a run hurry</div>`],
+  ["The look",`<p>A spooky vintage stop-motion puppet film: a knitted Zion in a rasta beanie, a classic bedsheet ghost and a candlelit old house.</p>[[refs]]`],
+  ["Boards and clips",`<p>Four boards, then eight motion clips and two lip syncs on the hook.</p>[[boards]]`],
+  ["The edit",`<p>Claude cut it to the song with a horror-poster title and old-book lyric type.</p>`]],
+ credits:["Direction · James","Song · Suno","Timing · Codex","Production · Claude"]},
+
+"respawn":{title:"RESPAWN",kick:"ZS-05 · Video game · reggae hip hop · 3:32",
+ lede:"Zion keeps dying in a video game and keeps coming back. He's a skeleton, so every death is a gag: his bones scatter, then snap back together with a 1UP ping. The lives counter climbs through island, lava, ice and a stone boss until he wins on life 99.",
+ ledger:[["Song","3:32 · Suno · reggae hip hop + chiptune · 87 BPM"],["Boards","16 boards"],["Clips","16 motion clips · 17 lip-sync clips"],["Made","October 7–8, 2026"]],
+ steps:[
+  ["Story and song",`<p>A film about getting back up. Rapped patois verses, a sung chorus, chiptune on top.</p><div class="quote">Respawn, respawn, mi come again
+One more life, one more run, mi nah done, my friend
+Fall down seven, get up eight
+Press start, press start, mi nah hesitate</div>`],
+  ["Our own game",`<p>One look for the whole film: a bright, chunky 3D platformer, with worlds, items and enemies all invented here, nothing from a real game. Zion gets a hip hop outfit, plus a level map and a reference for each world.</p>[[refs]]`],
+  ["Sixteen boards",`<p>Codex mapped the song (52 vocal phrases, 87 BPM) and the boards were timed against it, one world per stretch of music.</p>[[boards]]`],
+  ["Clips and lip sync",`<p>Sixteen motion clips and seventeen lip syncs, each from an exact cut of the song.</p>`],
+  ["The edit",`<p>133 cuts, plus a game HUD drawn in code: the LIFE counter, score, 1UP pops, world cards, GAME OVER, a CONTINUE countdown, the boss health bar and NEW RECORD, with quiet chiptune sounds under the song. Versions 2 and 3 fixed a jump where Zion briefly had three legs. Seven shorts were cut from it.</p>`]],
+ credits:["Direction · James","Song · Suno","Timing · Codex","Clips · Minimax","Production · Claude"]},
+
+"multiverse":{title:"ZION SKANK<br>MULTIVERSE",kick:"ZS-04 · Trailer · 20 art styles · 0:45",
+ lede:"One skeleton, twenty art styles, cut on the bar: a trailer for the whole Zion Skank world, built entirely from footage that already existed.",
+ ledger:[["Music","James's instrumental · 85 BPM"],["Worlds","20 art styles"],["New footage","None"],["Made","October 7, 2026"]],
+ steps:[
+  ["The idea",`<p>Grok suggested it and James approved: a trailer that shows Zion is the same character in any style. No new generation; everything comes from earlier films and style tests.</p>`],
+  ["Twenty worlds",`<p>Pulled from the earlier films and experiments, with the era captions covered or cropped out.</p><div class="quote">The Original · Felt · Anime · Linocut · Stained Glass · 16-bit
+Ukiyo-e · ASCII · Pop Art · Printing Press · Psychedelic
+Roman Mosaic · Cave Painting · Egyptian · Greek Vase
+Pointillism · Cartoon · Ink Noir · Watercolor · Festival</div>`],
+  ["On the bar",`<p>James trimmed his instrumental to 45 seconds with a fade. Every cut lands on the 85 BPM bar grid: a four-way hook in the first three seconds, twelve half-bar cuts, four quarter-bar flashes, six one-bar hero shots, then a twenty-cell grid and the end card.</p>`],
+  ["Two shapes",`<p>Built by a Python script as a 16:9 trailer and a separate 9:16 cut for phones.</p>`]],
+ credits:["Idea · Grok","Direction · James","Edit · Claude"]},
+
+"one-drop":{title:"ONE<br>DROP",kick:"ZS-03 · Anime · reggae + punk · 4:00",poster:"frames/f08_170.jpg",
+ lede:"Robots run the city, and their boss MUTE has banned live music. Zion plays a rooftop sound system that turns into a mech, but the robots aren't the enemy: he frees them by teaching them to skank.",
+ ledger:[["Song","4:00 · Suno · reggae + ska-punk · 82 BPM"],["Boards","8 reference sheets · 16 boards"],["Clips","17 motion clips · 12 lip-sync clips"],["Made","October 4–5, 2026"]],
+ steps:[
+  ["The story",`<p>The first of the weekly Zion story films. The message: you were never just the work you do.</p><div class="quote">One drop! (One drop!) Feel di bass come down
+One drop! (One drop!) Shake di silent town
+Dem can take mi job, dem cyaan take mi sound
+One drop! Everybody get down!</div>`],
+  ["The cast",`<p>Drawn as a 1990s hand-drawn anime TV opening: anime Zion, MUTE with a face like a mute icon, the worker robots (and robot 7, who gets the headphones), the sound-system mech in three stages, and a grey city that floods with red, gold and green.</p>[[refs]]`],
+  ["Sixteen boards",`<p>Codex mapped the song and the boards were timed to it, from the silent city to MUTE's screen glitching: "Music... is... good."</p>[[boards]]`],
+  ["Clips, lip sync, edit",`<p>Seventeen motion clips and twelve lip syncs, cut on the kick-drum grid and played on twos for the anime feel. Version 2 fixed a moment at 2:21 where two Zions appeared. Five shorts were cut from it.</p>`]],
+ credits:["Direction · James","Song · Suno","Timing · Codex","Production · Claude"]},
+
+"jah-jah-blues":{title:"JAH JAH<br>BLUES",kick:"ZS-02 · Felt stop-motion · reggae + jump blues · 3:07",poster:"frames/f04_52.jpg",yt:"qA_g-JoA8RY",
+ lede:"A little felt rain cloud called the Blues follows Zion Skank around a gray felt town. Every chorus he dances, colour stitches back into the streets, and by the end the cloud is dancing too, raining on a garden.",
+ ledger:[["Song","3:07 · Suno · about 90 BPM · sung in patois"],["Boards","14 boards · 8 stills each"],["Clips","14 motion clips · 10 lip-sync clips"],["Made","October 2–3, 2026"]],
+ steps:[
+  ["The song",`<p>James wanted reggae as the backbone with a jump-blues kick. The first draft leaned too blues, so the second kept the same lyrics in Jamaican patois and put roots reggae first in the style prompt. Suno ran long at 3:07 and James faded the ending by hand.</p><div class="quote">Conscious roots reggae fused with upbeat jump blues: a deep, bass-forward one-drop reggae groove carrying exuberant 1940s horn-swing energy … Soulful, gravelly older Jamaican male lead vocal singing in patois, full of warmth and humor; joyful male backing group with big call-and-response choruses.</div><p style="margin-top:12px">It opens on a knock at the door:</p><div class="quote">Knock knock!
+Who dat?
+Jah Jah Blues!
+Come een, come een, wi have room fi yuh!</div>`],
+  ["The cast",`<p>Zion in stitched felt, the Blues cloud (big four-hole button eyes, no arms, yarn rain), three skeleton neighbours (no sunglasses: red shades belong to Zion alone) and a town that is half gray, half colour.</p>[[refs]]`],
+  ["Fourteen boards",`<p>Each board is one image holding eight 16:9 stills, written against a timing map of the song so every board covers its own stretch of music. Zion stays the only colour until the choruses start bringing it back.</p>[[boards]]`],
+  ["Motion and lip sync",`<p>Every board became a short motion clip, and ten singing shots were made from the song's own vocal so Zion's felt jaw opens on the words.</p>`],
+  ["The edit",`<p>Claude cut the clips to the song and added the lyrics and style layer. Version 2 fixed a glitching door arm and a lip-sync stretch around 0:38 to 0:44. Four vertical shorts were cut from it too.</p>`]],
+ credits:["Direction · James","Production · Claude","Song · Suno"]},
+
+"shake-it-loose-live":{title:"SHAKE IT<br>LOOSE — LIVE!",kick:"ZS-01 · Concert film · 5:06",yt:"LPfU3dr9rn0",
+ lede:"Zion Skank and his skeleton band play a full show on a tropical stage at dusk. James built it from concert stills and AI performance clips; it has since been recut twice, by Claude and by ChatGPT.",
+ ledger:[["Song","5:06 · Shake It Loose"],["Stills","18 concert stills and boards"],["Clips","23 performance clips"],["Recuts","Claude (Oct 1) · ChatGPT (Jan 27)"]],
+ steps:[
+  ["The original",`<p>James made the stage, the band and the crowd as stills, turned them into performance clips with Zion lip-syncing the song, and cut the full show himself. This is the version on YouTube.</p>[[boards]]`],
+  ["Claude's recut",`<p>"The words move." Performance first, with every sung line on screen word by word, and the words doing what they say: SHAKE shakes, LOOSE wobbles apart, "Turn up the light" flashes the picture. Hooks split into three camera strips, the band gets name chyrons. A second version re-timed every lyric after James caught them drifting late in the song. Seven shorts came out of it.</p>`],
+  ["ChatGPT's recut",`<p>A dynamic edit built on effects (panels, cut-out type, spectrum graphics). It premieres on YouTube on January 27.</p><div class="actions"><a class="btn" href="https://youtu.be/T6056YWrVqk" target="_blank" rel="noopener">ChatGPT's cut on YouTube ↗</a></div>`]],
+ credits:["Song, stills and clips · James","Recuts · Claude, ChatGPT"]}
+};
+
+const CAP={ "ref-01-zion-turnaround":"Zion turnaround","ref-02-zion-faces":"Faces and singing jaws","ref-03-zion-poses":"Action poses","ref-04-mute":"MUTE","ref-05-robots":"Worker robots","ref-06-mech":"The mech","ref-07-city":"The city, grey and colour","ref-08-locations":"Rooftop and control room",
+ "Zion Hip Hop Clean":"Zion, hip hop outfit","ref-02 Zion Poses":"Poses and death gags","RESPAWN LEVEL MAP":"Level map","ref-03 Skank Island":"Skank Island","ref-04 Volcano":"Volcano","ref-05 Rooftop and Ice":"Rooftop and ice","ref-06 Big Boulda":"Big Boulda","ref-07 Continue":"Continue",
+ "bloodstream_blender_still":"Artery test in Blender","mandelbulb_reference_frame":"A frame from the dive","Meshy Zion full body first look":"Meshy Zion, all sides","Meshy Zion set 2 A-pose Halloween pilot":"More Meshy Zions","_original thumbnail v2":"Original thumbnail","Neon Skeleton DJ Turnaround Collage":"Character sheet"};
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+const cap=s=>esc(CAP[s]||s.replace(/^Board (\d+) - /,'$1 · ').replace(/_/g,' '));
+const ts=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+
 const grid=document.getElementById('grid');
 grid.innerHTML=FILMS.map(f=>`
- <a class="rec${f.open||f.yt?' open':''}" ${f.open?`href="#${f.slug}"`:f.yt?`href="${f.yt}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>
-  <div class="art"><img src="assets/thumbs/${f.slug}.jpg" alt="${f.t}" loading="lazy"><span class="cat mono">${f.n}</span>${f.chip?`<span class="chip mono">${f.chip}</span>`:''}</div>
+ <a class="rec open" href="#${f.slug}">
+  <div class="art"><img src="assets/thumbs/${f.slug}.jpg" alt="${esc(f.t)}" loading="lazy"><span class="cat mono">${f.n}</span>${f.chip?`<span class="chip mono">${f.chip}</span>`:''}</div>
   <div class="meta mono"><span>${f.style}</span><span>${f.len}</span></div>
-  <h3>${f.t}</h3><p>${f.d}</p>${f.open?'':f.yt?'<span class="mono soon">Watch on YouTube ↗</span>':'<span class="mono soon">Making-of page coming</span>'}
+  <h3>${esc(f.t)}</h3><p>${esc(f.d)}</p>
  </a>`).join('');
 
-const frames=["f00_5","f01_17","f02_29","f03_40","f04_52","f05_64","f06_75","f07_87","f08_99","f09_110","f10_122","f11_134","f12_145","f13_157","f14_169","f15_180"];
-document.getElementById('reel').innerHTML=frames.map(f=>{const s=+f.split('_')[1];return `<figure><img src="assets/jah-jah-blues/frames/${f}.jpg" alt="Frame at ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}" loading="lazy" data-zoom><figcaption class="mono">${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}</figcaption></figure>`}).join('');
-const refs=[["zion-skank-stitch-for-jah-jah-blues","Zion in stitched felt"],["ref-01-zion","Zion's expressions"],["ref-02-blues","The Blues"],["ref-03-neighbors-v2","The neighbours"],["ref-04-town","The town, gray and colour"]];
-document.getElementById('refs').innerHTML=refs.map(([f,a])=>`<img src="assets/jah-jah-blues/refs/${f}.jpg" alt="${a}" title="${a}" loading="lazy" data-zoom>`).join('');
-document.getElementById('boards').innerHTML=Array.from({length:14},(_,i)=>`<img src="assets/jah-jah-blues/boards/board-${String(i+1).padStart(2,'0')}.jpg" alt="Board ${i+1}" title="Board ${i+1}" loading="lazy" data-zoom>`).join('');
+const $=id=>document.getElementById(id);
+function gallery(slug,kind){
+  const a=ASSETS[slug], list=a[kind]; if(!list||!list.length) return '';
+  return `<div class="thumbs">${list.map(([f,c])=>`<figure><img src="assets/${slug}/${kind}/${f}.jpg" alt="${cap(c)}" title="${cap(c)}" loading="lazy" data-zoom><figcaption class="mono">${cap(c)}</figcaption></figure>`).join('')}</div>`;
+}
+function render(slug){
+  const p=PAGES[slug], a=ASSETS[slug], f=FILMS.find(x=>x.slug===slug), i=FILMS.indexOf(f);
+  document.title=f.t+' · Zion Skank Gallery';
+  $('fPoster').src=`assets/${slug}/${p.poster||'poster.jpg'}`;
+  const v=$('filmVid'); v.src=`assets/${slug}/loop.mp4`; v.poster=$('fPoster').src;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}
+  $('fKick').textContent=p.kick; $('fTitle').innerHTML=p.title; $('fLede').textContent=p.lede;
+  $('fActions').innerHTML=(p.yt?`<a class="btn gold" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener">Watch on YouTube</a>`:`<span class="btn off">YouTube link coming</span>`)+`<button class="btn" type="button" id="toMaking">How it was made</button>`;
+  $('toMaking').onclick=()=>$('making').scrollIntoView({behavior:'smooth'});
+  $('fLedger').innerHTML=p.ledger.map(([k,val])=>`<div><div class="mono k">${k}</div><div class="v">${esc(val)}</div></div>`).join('');
+  const shape=a.shape;
+  $('fWatch').innerHTML=p.yt
+    ?`<div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${p.yt}" title="${esc(f.t)} on YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+    :`<div class="yt soonbox ${shape}"><img src="assets/${slug}/${p.poster||'poster.jpg'}" alt=""><div class="mono">Full film coming to YouTube</div></div>`;
+  $('fReelNote').textContent=`${a.frames.length} frames from the finished cut`;
+  const reel=$('reel'); reel.className='reel '+shape;
+  reel.innerHTML=a.frames.map(fr=>{const s=+fr.split('_')[1];return `<figure><img src="assets/${slug}/frames/${fr}.jpg" alt="Frame at ${ts(s)}" loading="lazy" data-zoom><figcaption class="mono">${ts(s)}</figcaption></figure>`}).join('');
+  $('fSteps').innerHTML=p.steps.map(([h,body],k)=>`<div class="mstep"><div><div class="mono n">Step ${k+1}</div><h3>${h}</h3></div><div>${body.replace('[[refs]]',gallery(slug,'refs')).replace('[[boards]]',gallery(slug,'boards'))}${k===p.steps.length-1?`<div class="credits mono" style="margin-top:14px">${p.credits.map(c=>`<span>${c}</span>`).join('')}</div>`:''}</div></div>`).join('');
+  const newer=FILMS[i-1], older=FILMS[i+1];
+  $('fPager').innerHTML=`<span>${newer?`<a href="#${newer.slug}">← ${esc(newer.t)}</a>`:''}</span><a href="#films">All films</a><span>${older?`<a href="#${older.slug}">${esc(older.t)} →</a>`:''}</span>`;
+}
 
-const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg');
+const lb=$('lb'),lbImg=$('lbImg');
 document.addEventListener('click',e=>{const im=e.target.closest('[data-zoom]');if(im){lbImg.src=im.src;lbImg.alt=im.alt;lb.showModal();}});
 lb.addEventListener('click',()=>lb.close());
 
-const home=document.getElementById('home'),film=document.getElementById('film');
+const home=$('home'),film=$('film');
 function route(){
-  const h=location.hash.slice(1);
-  const isFilm=h==='jah-jah-blues'||h==='making';
+  let h=decodeURIComponent(location.hash.slice(1));
+  if(h==='making') h='jah-jah-blues';
+  const isFilm=!!PAGES[h];
   home.hidden=isFilm; film.hidden=!isFilm;
-  if(!isFilm && h && h!=='top'){document.getElementById(h)?.scrollIntoView();}
-  else if(h==='jah-jah-blues'||h==='top'||!h) window.scrollTo(0,0);
-  else if(h==='making') document.getElementById('making').scrollIntoView();
+  if(isFilm){ render(h); if(location.hash==='#making') $('making').scrollIntoView(); else window.scrollTo(0,0); }
+  else { document.title='Zion Skank Gallery'; $('filmVid').removeAttribute('src');
+    if(h && h!=='top') document.getElementById(h)?.scrollIntoView(); else window.scrollTo(0,0); }
 }
 addEventListener('hashchange',route); route();
-document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{home.hidden=false;film.hidden=true;}));
 if(matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('video').forEach(v=>{v.removeAttribute('autoplay');v.pause();});}
 </script>
 </body>
