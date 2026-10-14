@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zion Skank Gallery</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+/* Layout: a reggae label's catalogue. Night-black sleeve, bone type, one gold accent; red/gold/green only as the thin label stripe. */
+:root{
+  --ink:#0f0e0b; --sleeve:#18160f; --bone:#efe4cc; --dim:#a99f89; --gold:#f0b429;
+  --red:#d6402f; --green:#2f9a55; --rule:rgba(239,228,204,.14);
+  --f-display:"Anton","Impact","Arial Narrow Bold",sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--bone);font:17px/1.6 var(--f-body);margin:0}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.stripe{height:4px;background:linear-gradient(90deg,var(--red) 0 33.3%,var(--gold) 33.3% 66.6%,var(--green) 66.6%)}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(15,14,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{font-family:var(--f-display);font-size:22px;letter-spacing:.06em;text-decoration:none;display:flex;gap:10px;align-items:center}
+.brand i{display:inline-block;width:18px;height:18px;border-radius:50%;background:conic-gradient(var(--red) 0 120deg,var(--gold) 0 240deg,var(--green) 0)}
+nav{display:flex;gap:18px;flex-wrap:wrap}
+nav a{text-decoration:none;color:var(--dim)} nav a:hover,nav a:focus-visible{color:var(--bone)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.hero video,.hero img.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;opacity:.55}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,14,11,.2) 0%,rgba(15,14,11,.55) 55%,var(--ink) 100%)}
+.hero .wrap{position:relative;z-index:1;padding-block:clamp(72px,14vw,150px) 48px}
+h1.mast{font-family:var(--f-display);font-weight:400;font-size:clamp(64px,13vw,168px);line-height:.88;letter-spacing:.01em;margin:0 0 18px;text-wrap:balance}
+.lede{font-size:clamp(18px,2.2vw,22px);max-width:34em;margin:0 0 22px}
+.counts{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--gold)}
+
+section{padding-block:56px}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:28px;flex-wrap:wrap}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,52px);letter-spacing:.02em;line-height:1;margin:0}
+h3{font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.03em;line-height:1.05;margin:0}
+
+/* catalogue */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px 22px}
+.rec{display:flex;flex-direction:column;gap:10px;text-decoration:none;min-width:0}
+.rec .art{position:relative;aspect-ratio:16/10;max-width:100%;overflow:hidden;background:var(--sleeve);border:1px solid var(--rule)}
+.rec .art img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.rec:hover .art img{transform:scale(1.04)}
+.cat{position:absolute;left:0;top:0;background:var(--ink);color:var(--gold);padding:4px 8px}
+.chip{position:absolute;right:8px;bottom:8px;background:rgba(15,14,11,.85);border:1px solid var(--rule);padding:3px 7px}
+.rec .meta{display:flex;justify-content:space-between;gap:12px;color:var(--dim)}
+.rec p{margin:0;color:var(--dim);font-size:15px;line-height:1.5}
+.rec.open h3{color:var(--bone)} .rec.open h3::after{content:" →";color:var(--gold)}
+.soon{color:var(--dim)}
+
+/* meet zion */
+.meet{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:40px;align-items:center}
+.meet img{width:100%;border:1px solid var(--rule)}
+.traits{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.traits li{display:grid;grid-template-columns:120px 1fr;gap:12px;border-top:1px solid var(--rule);padding-top:10px}
+.traits b{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+
+/* pipeline */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0;border-top:1px solid var(--rule)}
+.steps div{padding:16px 16px 18px 0;border-right:1px solid var(--rule);min-width:0}
+.steps div:last-child{border-right:0}
+.steps .n{color:var(--gold)} .steps h3{font-size:22px;margin:6px 0} .steps p{margin:0;color:var(--dim);font-size:15px}
+
+/* film page */
+.filmhero .wrap{padding-block:clamp(90px,16vw,170px) 40px}
+.kicker{color:var(--gold);margin-bottom:10px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.btn{font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:12px 16px;border:1px solid var(--bone);text-decoration:none;display:inline-block}
+.btn.gold{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn.off{opacity:.45;pointer-events:none;border-style:dashed}
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border:1px solid var(--rule);margin-top:34px;background:rgba(24,22,15,.7)}
+.ledger div{padding:14px 16px;border-right:1px solid var(--rule);min-width:0}
+.ledger div:last-child{border-right:0}
+.ledger .k{color:var(--gold);margin-bottom:4px} .ledger .v{font-size:15px}
+.reel{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,24%);gap:10px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x mandatory}
+.reel figure{margin:0;scroll-snap-align:start} .reel img{width:100%;aspect-ratio:16/9;object-fit:cover;border:1px solid var(--rule)}
+.reel figcaption{color:var(--dim);margin-top:4px}
+.making{display:grid;gap:44px}
+.mstep{display:grid;grid-template-columns:200px minmax(0,1fr);gap:28px;border-top:1px solid var(--rule);padding-top:20px}
+.mstep .n{color:var(--gold);font-size:13px}
+.mstep p{margin:0 0 12px;max-width:62ch}
+.quote{border-left:3px solid var(--gold);padding:10px 14px;background:var(--sleeve);font-family:var(--f-mono);font-size:13px;line-height:1.6;white-space:pre-wrap;max-width:70ch;color:var(--bone);overflow-x:auto}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.thumbs img{width:100%;border:1px solid var(--rule);cursor:zoom-in}
+.boards img{aspect-ratio:8/9;object-fit:cover}
+.channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.chan{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--rule);background:var(--sleeve);text-decoration:none;min-width:0}
+.chan:hover{border-color:var(--gold)} .chan .n{color:var(--gold)} .chan h3{font-size:34px} .chan p{margin:0;color:var(--dim)} .chan .go{margin-top:auto;padding-top:8px}
+.yt{position:relative;aspect-ratio:16/9;max-width:100%;border:1px solid var(--rule);background:#000}.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.credits{display:flex;flex-wrap:wrap;gap:8px 28px;color:var(--dim)}
+footer{border-top:1px solid var(--rule);padding-block:28px;color:var(--dim)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+dialog{border:1px solid var(--rule);background:var(--ink);padding:0;max-width:min(96vw,1200px)}
+dialog img{display:block;max-height:88vh;width:auto}
+dialog::backdrop{background:rgba(0,0,0,.85)}
+@media (max-width:720px){
+  .meet{grid-template-columns:1fr}
+  .mstep{grid-template-columns:1fr;gap:10px}
+  .traits li{grid-template-columns:96px 1fr}
+  nav{gap:12px;font-size:15px}
+  .reel{grid-auto-columns:72%}
+}
+@media (prefers-reduced-motion:reduce){.rec .art img{transition:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="stripe"></div>
+  <div class="wrap">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>ZION SKANK</a>
+    <nav><a href="#films">Films</a><a href="#zion">Meet Zion</a><a href="#how">How they're made</a><a href="#listen">Channels</a></nav>
+  </div>
+</header>
+
+<main id="home">
+  <div class="hero" id="top">
+    <img class="poster" src="assets/hero-poster.jpg" alt="">
+    <video id="heroVid" src="assets/hero-loop.mp4" poster="assets/hero-poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div class="wrap">
+      <div class="mono kicker">One skeleton · every style · reggae films</div>
+      <h1 class="mast">ZION<br>SKANK</h1>
+      <p class="lede">A grinning rasta skeleton in red shades, singing his way through felt towns, anime cities, video games and neon Halloween streets. Songs and direction by James; production by Claude.</p>
+      <div class="counts mono"><span>10 films</span><span>20:46 of video</span><span>Sept–Oct 2026</span></div>
+    </div>
+  </div>
+
+  <section id="films"><div class="wrap">
+    <div class="sechead"><h2>The catalogue</h2><span class="mono soon">Newest first · ZS = catalogue number</span></div>
+    <div class="grid" id="grid"></div>
+  </div></section>
+
+  <section id="zion"><div class="wrap meet">
+    <img src="assets/zion-portrait.jpg" alt="Zion Skank, the original look: skull grin, red sunglasses, brown dreadlocks, rasta headphones" loading="lazy">
+    <div>
+      <div class="mono kicker">Meet Zion</div>
+      <h2>Same bones, new world every time</h2>
+      <p>Zion Skank is the face of James's reggae. Each film drops him into a new art style and a new fusion of reggae with something else, but a handful of things never change, and every prompt carries them.</p>
+      <ul class="traits">
+        <li><b>Face</b><span>A grinning skull, always smiling. When he sings, the jaw opens; no lips, no tongue.</span></li>
+        <li><b>Shades</b><span>Red sunglasses, always on. His eyes are never shown.</span></li>
+        <li><b>Hair</b><span>Long brown dreadlocks.</span></li>
+        <li><b>Headphones</b><span>Red, gold and green, around his neck.</span></li>
+        <li><b>Shoes</b><span>Red high-top sneakers.</span></li>
+        <li><b>Mood</b><span>Playful and positive. Spooky-cute at most, never gory.</span></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <section id="how"><div class="wrap">
+    <div class="sechead"><h2>How they're made</h2><span class="mono soon">The usual route for a story film</span></div>
+    <div class="steps">
+      <div><span class="mono n">Step 1</span><h3>Song</h3><p>James writes the idea; Claude drafts lyrics and the style prompt; Suno makes the track.</p></div>
+      <div><span class="mono n">Step 2</span><h3>Zion's look</h3><p>A character sheet in the film's style, made in ChatGPT from a reference.</p></div>
+      <div><span class="mono n">Step 3</span><h3>Boards</h3><p>Action-board stills timed to the song, one prompt at a time.</p></div>
+      <div><span class="mono n">Step 4</span><h3>Clips</h3><p>Each board becomes a short AI video clip; singing shots get lip sync.</p></div>
+      <div><span class="mono n">Step 5</span><h3>The edit</h3><p>Claude cuts on the beat and adds lyrics, effects and graphics in code.</p></div>
+    </div>
+  </div></section>
+
+  <section id="listen"><div class="wrap">
+    <div class="sechead"><h2>Two channels</h2><span class="mono soon">On YouTube</span></div>
+    <div class="channels">
+      <a class="chan" href="https://www.youtube.com/@zionskank" target="_blank" rel="noopener">
+        <span class="mono n">@zionskank</span><h3>Zion Skank</h3><p>The songs and the music videos: Zion singing, every film in this catalogue.</p><span class="mono go">Open channel ↗</span></a>
+      <a class="chan" href="https://www.youtube.com/@zionskankgroove" target="_blank" rel="noopener">
+        <span class="mono n">@zionskankgroove</span><h3>Zion Skank Groove</h3><p>Long instrumental mixes: reggae fused with a different style every time, made for listening and working.</p><span class="mono go">Open channel ↗</span></a>
+    </div>
+  </div></section>
+</main>
+
+<main id="film" hidden>
+  <div class="hero filmhero">
+    <img class="poster" src="assets/jah-jah-blues/frames/f04_52.jpg" alt="">
+    <video id="filmVid" src="assets/jah-jah-blues/loop.mp4" autoplay muted loop playsinline aria-hidden="true"></video>
+    <div class="wrap">
+      <div class="mono kicker">ZS-02 · Felt stop-motion · reggae + jump blues · 3:07</div>
+      <h1 class="mast">JAH JAH<br>BLUES</h1>
+      <p class="lede">A little felt rain cloud called the Blues follows Zion Skank around a gray felt town. Every chorus he dances, colour stitches back into the streets, and by the end the cloud is dancing too, raining on a garden.</p>
+      <div class="actions">
+        <a class="btn gold" href="https://www.youtube.com/watch?v=qA_g-JoA8RY" target="_blank" rel="noopener">Watch on YouTube</a>
+        <a class="btn" href="#making">How it was made</a>
+      </div>
+      <div class="ledger">
+        <div><div class="mono k">Song</div><div class="v">3:07 · Suno · about 90 BPM · sung in patois</div></div>
+        <div><div class="mono k">Boards</div><div class="v">14 boards · 8 stills each</div></div>
+        <div><div class="mono k">Clips</div><div class="v">14 motion clips · 10 lip-sync clips</div></div>
+        <div><div class="mono k">Made</div><div class="v">October 2–3, 2026</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section><div class="wrap">
+    <div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/qA_g-JoA8RY" title="Jah Jah Blues on YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    <div class="sechead" style="margin-top:40px"><h2>The film</h2><span class="mono soon">16 frames from the finished cut</span></div>
+    <div class="reel" id="reel"></div>
+  </div></section>
+
+  <section id="making"><div class="wrap">
+    <div class="sechead"><h2>How it was made</h2><span class="mono soon">In the order it happened</span></div>
+    <div class="making">
+      <div class="mstep"><div><div class="mono n">Step 1</div><h3>The song</h3></div><div>
+        <p>James wanted reggae as the backbone with a jump-blues kick. The first draft leaned too blues, so the second kept the same lyrics in Jamaican patois and put roots reggae first in the style prompt. Suno ran long at 3:07 and James faded the ending by hand.</p>
+        <div class="quote">Conscious roots reggae fused with upbeat jump blues: a deep, bass-forward one-drop reggae groove carrying exuberant 1940s horn-swing energy … Soulful, gravelly older Jamaican male lead vocal singing in patois, full of warmth and humor; joyful male backing group with big call-and-response choruses.</div>
+        <p style="margin-top:12px">It opens on a knock at the door:</p>
+        <div class="quote">Knock knock!
+Who dat?
+Jah Jah Blues!
+Come een, come een, wi have room fi yuh!</div>
+      </div></div>
+
+      <div class="mstep"><div><div class="mono n">Step 2</div><h3>The cast</h3></div><div>
+        <p>Zion in stitched felt, the Blues cloud (big four-hole button eyes, no arms, yarn rain), three skeleton neighbours (no sunglasses: red shades belong to Zion alone) and a town that is half gray, half colour.</p>
+        <div class="thumbs" id="refs"></div>
+      </div></div>
+
+      <div class="mstep"><div><div class="mono n">Step 3</div><h3>Fourteen boards</h3></div><div>
+        <p>Each board is one image holding eight 16:9 stills, written against a timing map of the song so every board covers its own stretch of music. Zion stays the only colour until the choruses start bringing it back.</p>
+        <div class="thumbs boards" id="boards"></div>
+      </div></div>
+
+      <div class="mstep"><div><div class="mono n">Step 4</div><h3>Motion and lip sync</h3></div><div>
+        <p>Every board became a short motion clip, and ten singing shots were made from the song's own vocal so Zion's felt jaw opens on the words.</p>
+      </div></div>
+
+      <div class="mstep"><div><div class="mono n">Step 5</div><h3>The edit</h3></div><div>
+        <p>Claude cut the clips to the song and added the lyrics and style layer. Version 2 fixed a glitching door arm and a lip-sync stretch around 0:38 to 0:44. Four vertical shorts were cut from it too.</p>
+        <div class="credits mono"><span>Direction · James</span><span>Production · Claude</span><span>Song · Suno</span></div>
+      </div></div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="wrap mono"><span>Zion Skank · reggae with bones · <a href="https://www.youtube.com/@zionskank" target="_blank" rel="noopener">YouTube</a> · <a href="https://www.youtube.com/@zionskankgroove" target="_blank" rel="noopener">Groove</a></span><a href="#top" id="backHome">Back to the catalogue</a></div></footer>
+
+<dialog id="lb"><img id="lbImg" alt=""></dialog>
+
+<script>
+const FILMS=[
+ {n:"ZS-10",slug:"neon-duppy-dance",t:"Neon Duppy Dance",len:"1:14",style:"Neon Halloween · spooky ska",d:"A neon Kingston street at midnight. The sound system wakes and the ghosts come out to dance."},
+ {n:"ZS-09",slug:"sound-system-mech",t:"Sound System Mech",len:"0:30",style:"Built in code · dub",d:"Zion climbs into his sound system. Every woofer pumps to the real bass line.",chip:""},
+ {n:"ZS-08",slug:"fractal-zion",t:"Fractal Zion",len:"0:14",style:"Real Mandelbulb math",d:"A dive into a 3D fractal, rendered from the equation in code.",chip:"On X"},
+ {n:"ZS-07",slug:"bloodstream",t:"Bloodstream",len:"1:06",style:"Reggae amapiano · vertical",d:"Tiny Zion rides a red blood cell with a nanobot crew, inside a 110-year-old grandmother who's dancing."},
+ {n:"ZS-06",slug:"who-you-callin-scary",t:"Who You Callin' Scary?",len:"1:07",style:"Puppet stop-motion · dark dub",d:"Zion moves into a haunted house. The ghost tries to scare him, then sees he's a skeleton and screams."},
+ {n:"ZS-05",slug:"respawn",t:"Respawn",len:"3:32",style:"Video game · reggae hip hop",d:"Zion keeps dying and keeps coming back, until he beats the boss on his last life."},
+ {n:"ZS-04",slug:"multiverse",t:"Zion Skank Multiverse",len:"0:45",style:"Trailer · 20 art styles",d:"One skeleton, twenty worlds, cut on the bar."},
+ {n:"ZS-03",slug:"one-drop",t:"One Drop",len:"4:00",style:"Anime · reggae + punk",d:"Robots run the city and music is banned. Zion frees them by teaching them to skank.",chip:"On X"},
+ {n:"ZS-02",slug:"jah-jah-blues",t:"Jah Jah Blues",len:"3:07",style:"Felt stop-motion · reggae + jump blues",d:"A felt rain cloud follows Zion around a gray town until it dances too.",chip:"On YouTube",open:true},
+ {n:"ZS-01",slug:"shake-it-loose-live",t:"Shake It Loose — Live!",len:"5:06",style:"Live performance",d:"James on stage as Zion Skank. Since recut twice, by Claude and by ChatGPT; ChatGPT's cut premieres on YouTube on January 27.",chip:"On YouTube",yt:"https://www.youtube.com/watch?v=LPfU3dr9rn0"}
+];
+const grid=document.getElementById('grid');
+grid.innerHTML=FILMS.map(f=>`
+ <a class="rec${f.open||f.yt?' open':''}" ${f.open?`href="#${f.slug}"`:f.yt?`href="${f.yt}" target="_blank" rel="noopener"`:'aria-disabled="true"'}>
+  <div class="art"><img src="assets/thumbs/${f.slug}.jpg" alt="${f.t}" loading="lazy"><span class="cat mono">${f.n}</span>${f.chip?`<span class="chip mono">${f.chip}</span>`:''}</div>
+  <div class="meta mono"><span>${f.style}</span><span>${f.len}</span></div>
+  <h3>${f.t}</h3><p>${f.d}</p>${f.open?'':f.yt?'<span class="mono soon">Watch on YouTube ↗</span>':'<span class="mono soon">Making-of page coming</span>'}
+ </a>`).join('');
+
+const frames=["f00_5","f01_17","f02_29","f03_40","f04_52","f05_64","f06_75","f07_87","f08_99","f09_110","f10_122","f11_134","f12_145","f13_157","f14_169","f15_180"];
+document.getElementById('reel').innerHTML=frames.map(f=>{const s=+f.split('_')[1];return `<figure><img src="assets/jah-jah-blues/frames/${f}.jpg" alt="Frame at ${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}" loading="lazy" data-zoom><figcaption class="mono">${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}</figcaption></figure>`}).join('');
+const refs=[["zion-skank-stitch-for-jah-jah-blues","Zion in stitched felt"],["ref-01-zion","Zion's expressions"],["ref-02-blues","The Blues"],["ref-03-neighbors-v2","The neighbours"],["ref-04-town","The town, gray and colour"]];
+document.getElementById('refs').innerHTML=refs.map(([f,a])=>`<img src="assets/jah-jah-blues/refs/${f}.jpg" alt="${a}" title="${a}" loading="lazy" data-zoom>`).join('');
+document.getElementById('boards').innerHTML=Array.from({length:14},(_,i)=>`<img src="assets/jah-jah-blues/boards/board-${String(i+1).padStart(2,'0')}.jpg" alt="Board ${i+1}" title="Board ${i+1}" loading="lazy" data-zoom>`).join('');
+
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg');
+document.addEventListener('click',e=>{const im=e.target.closest('[data-zoom]');if(im){lbImg.src=im.src;lbImg.alt=im.alt;lb.showModal();}});
+lb.addEventListener('click',()=>lb.close());
+
+const home=document.getElementById('home'),film=document.getElementById('film');
+function route(){
+  const h=location.hash.slice(1);
+  const isFilm=h==='jah-jah-blues'||h==='making';
+  home.hidden=isFilm; film.hidden=!isFilm;
+  if(!isFilm && h && h!=='top'){document.getElementById(h)?.scrollIntoView();}
+  else if(h==='jah-jah-blues'||h==='top'||!h) window.scrollTo(0,0);
+  else if(h==='making') document.getElementById('making').scrollIntoView();
+}
+addEventListener('hashchange',route); route();
+document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{home.hidden=false;film.hidden=true;}));
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelectorAll('video').forEach(v=>{v.removeAttribute('autoplay');v.pause();});}
+</script>
+</body>
+</html>
