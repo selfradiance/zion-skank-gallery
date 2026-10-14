@@ -103,6 +103,10 @@ h3{font-family:var(--f-display);font-weight:400;font-size:26px;letter-spacing:.0
 button.btn{background:none;color:var(--bone);cursor:pointer}
 .pager{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-top:56px;border-top:1px solid var(--rule);padding-top:16px;flex-wrap:wrap}
 .pager a{text-decoration:none;color:var(--dim)} .pager a:hover,.pager a:focus-visible{color:var(--gold)}
+.cut{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:28px;align-items:start;padding-bottom:36px;margin-bottom:36px;border-bottom:1px solid var(--rule)}
+.cut:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+.cuttext p{margin:0 0 16px;max-width:52ch}
+.reel.mini{grid-auto-columns:minmax(150px,46%)} .reel.mini.tall{grid-auto-columns:minmax(100px,30%)}
 .channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .chan{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--rule);background:var(--sleeve);text-decoration:none;min-width:0}
 .chan:hover{border-color:var(--gold)} .chan .n{color:var(--gold)} .chan h3{font-size:34px} .chan p{margin:0;color:var(--dim)} .chan .go{margin-top:auto;padding-top:8px}
@@ -116,6 +120,7 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
 @media (max-width:720px){
   .meet{grid-template-columns:1fr}
   .mstep{grid-template-columns:1fr;gap:10px}
+  .cut{grid-template-columns:1fr}
   .traits li{grid-template-columns:96px 1fr}
   nav{gap:12px;font-size:15px}
   .reel{grid-auto-columns:72%} .reel.tall{grid-auto-columns:42%} .reel.portrait{grid-auto-columns:55%}
@@ -140,7 +145,7 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
     <div class="wrap">
       <div class="mono kicker">One skeleton · every style · reggae films</div>
       <h1 class="mast">ZION<br>SKANK</h1>
-      <p class="lede">A grinning rasta skeleton in red shades, singing his way through felt towns, anime cities, video games and neon Halloween streets. Songs and direction by James; production by Claude.</p>
+      <p class="lede">A grinning rasta skeleton in red shades, singing his way through felt towns, anime cities, video games and neon Halloween streets. Songs and direction by James. Each film is produced by Claude, and most have a second cut by ChatGPT.</p>
       <div class="counts mono"><span>10 films</span><span>20:46 of video</span><span>Sept–Oct 2026</span></div>
     </div>
   </div>
@@ -208,6 +213,11 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
     <div class="reel" id="reel"></div>
   </div></section>
 
+  <section id="cuts" hidden><div class="wrap">
+    <div class="sechead"><h2 id="cutsHead">ChatGPT's cut</h2><span class="mono soon" id="cutsNote">Same song, same clips, a different editor</span></div>
+    <div id="cutsBody"></div>
+  </div></section>
+
   <section id="making"><div class="wrap">
     <div class="sechead"><h2>How it was made</h2><span class="mono soon">In the order it happened</span></div>
     <div class="making" id="fSteps"></div>
@@ -236,7 +246,7 @@ const FILMS=[
 
 /* One entry per film page. [[refs]] and [[boards]] drop in that film's image grids. */
 const PAGES={
-"neon-duppy-dance":{yt:"IF2TX8q10O0",pub:false,title:"NEON<br>DUPPY DANCE",kick:"ZS-10 · Neon Halloween · spooky ska · 1:14",poster:"frames/f05_34.jpg",
+"neon-duppy-dance":{yt:"IF2TX8q10O0",title:"NEON<br>DUPPY DANCE",kick:"ZS-10 · Neon Halloween · spooky ska · 1:14",poster:"frames/f05_34.jpg",
  lede:"Midnight on a wet neon street in Kingston. The sound system wakes up, Zion skanks in a purple cloak and a glowing ribcage tee, and by the last hook the duppies (Jamaican ghosts) are dancing with him.",
  ledger:[["Song","1:14 · Suno · spooky ska · 124 BPM"],["Boards","9 boards, one per shot"],["Clips","5 dance clips · 4 lip-sync clips"],["Made","October 13, 2026"]],
  steps:[
@@ -250,7 +260,7 @@ Neon ghost inna Kingston town</div>`],
   ["The edit",`<p>Version 1 was a straight paste-up, and James said so. Version 2 added the style layer in code: rapid eighth-note flashes under the title, zoom punches on the kick, RGB split and bloom, a white flash and shake on the bass drop, neon lyrics, echo trails and stutter freezes on "Rattle". Version 3 cuts away when Zion's mouth kept moving after a line ended. A vertical cut follows his red shades for X.</p>`]],
  credits:["Direction · James","Song · Suno","Shot plan · ChatGPT","Production · Claude"]},
 
-"sound-system-mech":{yt:"1lU1UfZ2678",pub:false,title:"SOUND SYSTEM<br>MECH",kick:"ZS-09 · Built in code · dub · 0:30",
+"sound-system-mech":{yt:"1lU1UfZ2678",title:"SOUND SYSTEM<br>MECH",kick:"ZS-09 · Built in code · dub · 0:30",
  lede:"Zion's sound system builds itself around him piece by piece, he climbs into the glass canopy, and the mech skanks to a dub James made for it. Every woofer pumps to the real bass line.",
  ledger:[["Song","0:30 · James's \"mech dub\" · 86 BPM"],["Zion","3D model from Meshy"],["Mech","24 parts, built in Three.js"],["Made","October 11, 2026"]],
  steps:[
@@ -261,7 +271,7 @@ Neon ghost inna Kingston town</div>`],
   ["Recording it",`<p>A script steps the page one frame at a time, about 1.7 seconds per frame, and the frames are joined to the song. No video generator anywhere in this one.</p>`]],
  credits:["Direction · James","Song · James","3D model · Meshy","Code and edit · Claude"]},
 
-"fractal-zion":{yt:"iFFCAU25H78",pub:false,ytShape:"tall",title:"FRACTAL<br>ZION",kick:"ZS-08 · Real Mandelbulb math · 0:14",
+"fractal-zion":{yt:"iFFCAU25H78",ytShape:"tall",title:"FRACTAL<br>ZION",kick:"ZS-08 · Real Mandelbulb math · 0:14",
  lede:"Push into Zion's eye socket and there's a whole universe inside: a real 3D fractal, rendered from its equation, diving deeper until a tiny Zion appears in a gold portal and grows back into the first frame.",
  ledger:[["Math","Mandelbulb, power 8 · z → z⁸ + c"],["Render","Ray marcher written in Python"],["Dive","288 frames, 900× zoom"],["Made","October 9, 2026"]],
  steps:[
@@ -272,7 +282,7 @@ Neon ghost inna Kingston town</div>`],
   ["Finish",`<p>The export was silent. James added a dub loop and effects in CapCut and posted it on X with his own clip of Zion laughing at the end.</p>`]],
  credits:["Idea and finish · James","Portraits · ChatGPT","Render and edit · Claude"]},
 
-"bloodstream":{yt:"l769EPfG44U",pub:false,title:"BLOOD<br>STREAM",kick:"ZS-07 · Reggae amapiano · vertical · 1:06",
+"bloodstream":{yt:"l769EPfG44U",title:"BLOOD<br>STREAM",kick:"ZS-07 · Reggae amapiano · vertical · 1:06",
  lede:"On her 110th birthday Miss Ivy tips a vial of nanobots into her bush tea. Tiny Zion rides down with the crew, they break up a plaque wall on the count, and that afternoon she's dancing at her own party.",
  ledger:[["Song","1:06 · Suno · reggae amapiano · 110 BPM"],["Boards","4 boards"],["Clips","4 motion clips · 2 lip-sync clips"],["Made","October 9, 2026"]],
  steps:[
@@ -286,7 +296,7 @@ Thank yuh, likkle crew, thank yuh!</div>`],
   ["Clips and the edit",`<p>Four motion clips and two lip syncs, one for Zion's hook and one for Ivy's, each lined up to the song to the frame. The edit cuts around a moment where Zion starts talking, and the stop-time count lands as big cyan ONE! TWO!</p>`]],
  credits:["Direction · James","Song · Suno","Timing · Codex","Clips · Minimax","Production · Claude"]},
 
-"who-you-callin-scary":{yt:"7b3GGR5YyV0",pub:false,soon:"Premieres on YouTube October 26",title:"WHO YOU<br>CALLIN' SCARY?",kick:"ZS-06 · Puppet stop-motion · dark dub · 1:07",
+"who-you-callin-scary":{yt:"7b3GGR5YyV0",title:"WHO YOU<br>CALLIN' SCARY?",kick:"ZS-06 · Puppet stop-motion · dark dub · 1:07",
  lede:"Zion moves into a creaky haunted house. The ghost tries everything (flickering lights, slamming doors), Zion doesn't flinch, and when the ghost finally sees he's a skeleton, it's the ghost that screams. They end up friends, the ghost in Zion's red shades.",
  ledger:[["Song","1:05 · Suno · dark dub reggae"],["Boards","4 boards"],["Clips","8 motion clips · 2 lip-sync clips"],["Made","October 8, 2026"]],
  steps:[
@@ -300,7 +310,7 @@ Ghost inna di house, but di ghost a run hurry</div>`],
   ["The edit",`<p>Claude cut it to the song with a horror-poster title and old-book lyric type.</p>`]],
  credits:["Direction · James","Song · Suno","Timing · Codex","Production · Claude"]},
 
-"respawn":{yt:"0Uhn4qHzjLY",pub:false,title:"RESPAWN",kick:"ZS-05 · Video game · reggae hip hop · 3:32",
+"respawn":{yt:"0Uhn4qHzjLY",title:"RESPAWN",kick:"ZS-05 · Video game · reggae hip hop · 3:32",
  lede:"Zion keeps dying in a video game and keeps coming back. He's a skeleton, so every death is a gag: his bones scatter, then snap back together with a 1UP ping. The lives counter climbs through island, lava, ice and a stone boss until he wins on life 99.",
  ledger:[["Song","3:32 · Suno · reggae hip hop + chiptune · 87 BPM"],["Boards","16 boards"],["Clips","16 motion clips · 17 lip-sync clips"],["Made","October 7–8, 2026"]],
  steps:[
@@ -314,7 +324,7 @@ Press start, press start, mi nah hesitate</div>`],
   ["The edit",`<p>133 cuts, plus a game HUD drawn in code: the LIFE counter, score, 1UP pops, world cards, GAME OVER, a CONTINUE countdown, the boss health bar and NEW RECORD, with quiet chiptune sounds under the song. Versions 2 and 3 fixed a jump where Zion briefly had three legs. Seven shorts were cut from it.</p>`]],
  credits:["Direction · James","Song · Suno","Timing · Codex","Clips · Minimax","Production · Claude"]},
 
-"multiverse":{yt:"JHhHJJbgyds",pub:false,title:"ZION SKANK<br>MULTIVERSE",kick:"ZS-04 · Trailer · 20 art styles · 0:45",
+"multiverse":{yt:"JHhHJJbgyds",title:"ZION SKANK<br>MULTIVERSE",kick:"ZS-04 · Trailer · 20 art styles · 0:45",
  lede:"One skeleton, twenty art styles, cut on the bar: a trailer for the whole Zion Skank world, built entirely from footage that already existed.",
  ledger:[["Music","James's instrumental · 85 BPM"],["Worlds","20 art styles"],["New footage","None"],["Made","October 7, 2026"]],
  steps:[
@@ -360,10 +370,11 @@ Come een, come een, wi have room fi yuh!</div>`],
  steps:[
   ["The original",`<p>James made the stage, the band and the crowd as stills, turned them into performance clips with Zion lip-syncing the song, and cut the full show himself. This is the version on YouTube.</p>[[boards]]`],
   ["Claude's recut",`<p>"The words move." Performance first, with every sung line on screen word by word, and the words doing what they say: SHAKE shakes, LOOSE wobbles apart, "Turn up the light" flashes the picture. Hooks split into three camera strips, the band gets name chyrons. A second version re-timed every lyric after James caught them drifting late in the song. Seven shorts came out of it.</p>`],
-  ["ChatGPT's recut",`<p>A dynamic edit built on effects (panels, cut-out type, spectrum graphics). It premieres on YouTube on January 27.</p><div class="actions"><a class="btn" href="https://youtu.be/T6056YWrVqk" target="_blank" rel="noopener">ChatGPT's cut on YouTube ↗</a></div>`]],
+  ["ChatGPT's recut",`<p>A dynamic edit built on effects (panels, cut-out type, spectrum graphics). It premieres on YouTube on January 27.</p>`]],
  credits:["Song, stills and clips · James","Recuts · Claude, ChatGPT"]}
 };
 
+const CUTS={"jah-jah-blues":[{"key":"chatgpt","by":"ChatGPT","name":"Wild Full","shape":"wide","frames":["f00_9","f01_33","f02_57","f03_81","f04_105","f05_129","f06_153","f07_177"],"text":"The same song becomes a living reggae poster: comic performance panels, a horn and piano block party, spinning-record choruses, ONE, TWO, JUMP, and a printed-town finale. Huge timed lyrics, waveforms and speakers move with the music."}],"one-drop":[{"key":"chatgpt","by":"ChatGPT","name":"Break the Broadcast","shape":"wide","frames":["f00_12","f01_42","f02_73","f03_104","f04_135","f05_166","f06_197","f07_228"],"text":"The city's broadcast breaks open into loose reggae comic pages: chorus impacts, the mech assembling, the duel in facing panels, a quiet headphone bridge, then a final chorus that opens into a celebration. Words land with the vocals and the music moves the frame."}],"respawn":[{"key":"chatgpt","by":"ChatGPT","name":"Ghost Run","shape":"wide","frames":["f00_10","f01_37","f02_65","f03_92","f04_119","f05_147","f06_174","f07_201"],"text":"Ghost fragments of Zion's earlier lives run through the island, rooftops, lava, ice and the boss fight, and every old failure pays off in a victory lap. A coconut catch answers the opening gag, and the outro gets one last stumble."}],"bloodstream":[{"key":"chatgpt","by":"ChatGPT","name":"A Little More Life","shape":"tall","frames":["f00_3","f01_11","f02_20","f03_28","f04_37","f05_45","f06_53","f07_62"],"text":"Miss Ivy and the crew share the screen: the cup of tea, the world inside, the blocked road and a little more room for life, told in garnet currents, cyan cutaways and connected portraits that open into her party."}],"who-you-callin-scary":[{"key":"chatgpt","by":"ChatGPT","name":"The Uninvited Guest","shape":"tall","frames":["f00_3","f01_11","f02_19","f03_28","f04_36","f05_44","f06_53","f07_61"],"text":"A haunted picture book: crooked windows, a keyhole opening, bold hooks and a warm payoff. Same house, better company."}],"fractal-zion":[{"key":"chatgpt","by":"ChatGPT","name":"Echo Chamber","shape":"tall","frames":["f00_1","f01_4","f02_8","f03_12","f04_15","f05_19"],"text":"Zion opens a room inside himself. One portrait becomes a constellation of echoes, then a corridor built from moving Mandelbulb architecture, and the whole space gathers into one huge laughing Zion."}],"multiverse":[{"key":"chatgpt","by":"ChatGPT","name":"One Dance","shape":"wide","frames":["f00_2","f01_8","f02_13","f03_19","f04_25","f05_31","f06_37","f07_43"],"text":"Instead of hard cuts, Zion travels through moving circular worlds and full-screen performances, then a constellation of all twenty worlds gathers back into one. One skeleton, every world."}],"neon-duppy-dance":[{"key":"chatgpt","by":"ChatGPT","name":"Ghost Frequency","shape":"wide","frames":["f00_3","f01_13","f02_22","f03_32","f04_42","f05_51","f06_61","f07_70"],"text":"ChatGPT's own edit of the same song and clips, with neon-outlined lettering, stacked Rattle dancers and its own title cards. A vertical version was made too."}],"shake-it-loose-live":[{"key":"claude","by":"Claude","name":"The words move","shape":"wide","frames":["f00_15","f01_54","f02_93","f03_133","f04_172","f05_211","f06_250","f07_290"],"text":"Performance first: every sung line on screen word by word, and the words do what they say. SHAKE shakes, LOOSE wobbles apart, \"Turn up the light\" flashes the picture. Hooks split into three camera strips."},{"key":"chatgpt","by":"ChatGPT","name":"Dynamic cut","shape":"wide","frames":["f00_15","f01_54","f02_93","f03_133","f04_172","f05_211","f06_251","f07_290"],"text":"Built on effects: panels, cut-out type and spectrum graphics around the concert footage. James faded the ending in CapCut.","yt":"T6056YWrVqk","pub":false,"soon":"Premieres on YouTube January 27"}]};
 const CAP={ "ref-01-zion-turnaround":"Zion turnaround","ref-02-zion-faces":"Faces and singing jaws","ref-03-zion-poses":"Action poses","ref-04-mute":"MUTE","ref-05-robots":"Worker robots","ref-06-mech":"The mech","ref-07-city":"The city, grey and colour","ref-08-locations":"Rooftop and control room",
  "Zion Hip Hop Clean":"Zion, hip hop outfit","ref-02 Zion Poses":"Poses and death gags","RESPAWN LEVEL MAP":"Level map","ref-03 Skank Island":"Skank Island","ref-04 Volcano":"Volcano","ref-05 Rooftop and Ice":"Rooftop and ice","ref-06 Big Boulda":"Big Boulda","ref-07 Continue":"Continue",
  "bloodstream_blender_still":"Artery test in Blender","mandelbulb_reference_frame":"A frame from the dive","Meshy Zion full body first look":"Meshy Zion, all sides","Meshy Zion set 2 A-pose Halloween pilot":"More Meshy Zions","_original thumbnail v2":"Original thumbnail","Neon Skeleton DJ Turnaround Collage":"Character sheet"};
@@ -403,8 +414,25 @@ function render(slug){
   const reel=$('reel'); reel.className='reel '+shape;
   reel.innerHTML=a.frames.map(fr=>{const s=+fr.split('_')[1];return `<figure><img src="assets/${slug}/frames/${fr}.jpg" alt="Frame at ${ts(s)}" loading="lazy" data-zoom><figcaption class="mono">${ts(s)}</figcaption></figure>`}).join('');
   $('fSteps').innerHTML=p.steps.map(([h,body],k)=>`<div class="mstep"><div><div class="mono n">Step ${k+1}</div><h3>${h}</h3></div><div>${body.replace('[[refs]]',gallery(slug,'refs')).replace('[[boards]]',gallery(slug,'boards'))}${k===p.steps.length-1?`<div class="credits mono" style="margin-top:14px">${p.credits.map(c=>`<span>${c}</span>`).join('')}</div>`:''}</div></div>`).join('');
+  renderCuts(slug,f);
   const newer=FILMS[i-1], older=FILMS[i+1];
   $('fPager').innerHTML=`<span>${newer?`<a href="#${newer.slug}">← ${esc(newer.t)}</a>`:''}</span><a href="#films">All films</a><span>${older?`<a href="#${older.slug}">${esc(older.t)} →</a>`:''}</span>`;
+}
+
+function player(yt,pub,shape,poster,soon,title){
+  return (yt&&pub!==false)
+    ?`<div class="yt ${shape}"><iframe src="https://www.youtube-nocookie.com/embed/${yt}" title="${esc(title)} on YouTube" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`
+    :`<div class="yt soonbox ${shape}"><img src="${poster}" alt="" loading="lazy"><div class="mono">${soon||'YouTube link coming'}</div></div>`;
+}
+function renderCuts(slug,f){
+  const list=CUTS[slug]||[], sec=$('cuts'); sec.hidden=!list.length; if(!list.length) return;
+  const multi=list.length>1;
+  $('cutsHead').textContent=multi?'The recuts':`${list[0].by}'s cut`;
+  $('cutsNote').textContent=multi?'Same show, two editors':'Same song, same clips, a different editor';
+  $('cutsBody').innerHTML=list.map(c=>{const base=`assets/${slug}/${c.key}/`;
+    return `<div class="cut"><div class="cutplay">${player(c.yt,c.pub,c.shape,base+c.frames[Math.min(2,c.frames.length-1)]+'.jpg',c.soon,f.t+' ('+c.by+')')}</div>
+    <div class="cuttext"><div class="mono kicker">${c.by} · ${esc(c.name)}</div><p>${esc(c.text)}</p>
+    <div class="reel mini ${c.shape}">${c.frames.map(fr=>{const s=+fr.split('_')[1];return `<figure><img src="${base}${fr}.jpg" alt="${c.by}'s cut at ${ts(s)}" loading="lazy" data-zoom><figcaption class="mono">${ts(s)}</figcaption></figure>`}).join('')}</div></div></div>`}).join('');
 }
 
 const lb=$('lb'),lbImg=$('lbImg');
