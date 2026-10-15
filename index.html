@@ -249,7 +249,7 @@ const FILMS=[
 
 /* One entry per film page. [[refs]] and [[boards]] drop in that film's image grids. */
 const PAGES={
-"made-of-bass":{yt:"c9IwG1HPsu4",title:"MADE<br>OF BASS",kick:"ZS-13 · Built in code · 180,000 grains · 1:12",
+"made-of-bass":{yt:"c9IwG1HPsu4",play:"play/made-of-bass.html",title:"MADE<br>OF BASS",kick:"ZS-13 · Built in code · 180,000 grains · 1:12",
  lede:"The bass shakes sand into patterns on a metal plate. Then the sand swirls up and stands as Zion, dances, bursts on every kick, freezes mid-explosion in the break, slams back together, and finally pours down to spell the title.",
  ledger:[["Music","1:12 · James's reggae hip hop instrumental · 86 BPM"],["Grains","180,000 · 120,000 on Zion"],["Plate","Real Chladni patterns"],["Made","October 15, 2026"]],
  steps:[
@@ -452,7 +452,7 @@ function render(slug){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}
   $('fKick').textContent=p.kick; $('fTitle').innerHTML=p.title; $('fLede').textContent=p.lede;
   const live=p.yt&&p.pub!==false;
-  $('fActions').innerHTML=(live?`<a class="btn gold" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener">Watch on YouTube</a>`:`<span class="btn off">${p.soon?'Premieres October 26':'On YouTube soon'}</span>`)+`<button class="btn" type="button" id="toMaking">How it was made</button>`;
+  $('fActions').innerHTML=(live?`<a class="btn gold" href="https://www.youtube.com/watch?v=${p.yt}" target="_blank" rel="noopener">Watch on YouTube</a>`:`<span class="btn off">${p.soon?'Premieres October 26':'On YouTube soon'}</span>`)+(p.play?`<a class="btn" href="${p.play}">Play with the sand</a>`:'')+`<button class="btn" type="button" id="toMaking">How it was made</button>`;
   $('toMaking').onclick=()=>$('making').scrollIntoView({behavior:'smooth'});
   $('fLedger').innerHTML=p.ledger.map(([k,val])=>`<div><div class="mono k">${k}</div><div class="v">${esc(val)}</div></div>`).join('');
   const shape=a.shape, ytShape=p.ytShape||shape;

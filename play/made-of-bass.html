@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Made of Bass · Play</title>
+<meta name="description" content="Play with Zion Skank made of 44,000 grains of sand. Press play and the bass shapes the sand.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{--ink:#0b0a08;--bone:#efe4cc;--dim:#a99f89;--gold:#f0b429;--red:#d6402f;--green:#2f9a55;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--bone);overflow:hidden;font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%;touch-action:none}
+.top{position:fixed;top:0;left:0;right:0;padding:max(14px,env(safe-area-inset-top)) 16px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;pointer-events:none}
+.top h1{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(28px,6vw,52px);letter-spacing:.02em;margin:0;line-height:.95}
+.top .sub{font-size:12px;letter-spacing:.08em;color:var(--gold);text-transform:uppercase;margin-top:6px}
+.top a{pointer-events:auto;color:var(--dim);font-size:12px;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(239,228,204,.25);padding:8px 10px;white-space:nowrap}
+.top a:hover{color:var(--bone);border-color:var(--gold)}
+.bar{position:fixed;left:0;right:0;bottom:0;padding:0 16px max(16px,env(safe-area-inset-bottom));display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+button{font:500 13px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--bone);background:rgba(11,10,8,.72);border:1px solid rgba(239,228,204,.35);padding:12px 14px;cursor:pointer;min-height:44px}
+button:hover,button:focus-visible{border-color:var(--gold);outline:none}
+button.main{background:var(--gold);color:var(--ink);border-color:var(--gold);font-weight:500}
+.info{position:fixed;left:16px;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 62px);font-size:12px;letter-spacing:.08em;color:var(--dim);text-transform:uppercase;line-height:1.7;pointer-events:none}
+.info b{color:var(--bone);font-weight:500}
+.hint{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);pointer-events:none;transition:opacity .8s}
+@media (max-width:560px){.info{bottom:calc(max(16px,env(safe-area-inset-bottom)) + 118px)}button{padding:10px 11px;font-size:12px}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="top"><div><h1>MADE OF BASS</h1><div class="sub">Zion Skank · play with the sand</div></div><a href="../#made-of-bass">Watch the film ↗</a></div>
+<div class="info" id="info"></div>
+<div class="hint" id="hint">Loading the sand…</div>
+<div class="bar">
+  <button class="main" id="play">▶ Play the song</button>
+  <button id="shake">Shake</button>
+  <button id="mode">New pattern</button>
+  <button id="form">Make Zion</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(async function(){
+const BPM=86.13,BEAT=60/BPM,B0=0.093,PLATE_Y=-0.5,R=1.45;
+const canvas=document.getElementById('c');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
+const DPR=Math.min(window.devicePixelRatio||1,1.75);renderer.setPixelRatio(DPR);
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x0b0a08);
+const cam=new THREE.PerspectiveCamera(34,1,0.05,50);cam.position.set(0.9,0.45,2.6);
+const controls=new THREE.OrbitControls(cam,canvas);controls.target.set(0,-0.05,0);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=1.1;controls.maxDistance=4.5;controls.maxPolarAngle=Math.PI*0.49;
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);cam.aspect=w/h;cam.position.multiplyScalar(1);cam.updateProjectionMatrix();if(w<h){cam.fov=48;}else cam.fov=34;cam.updateProjectionMatrix();}
+addEventListener('resize',resize);resize();
+
+/* plate */
+const pc=document.createElement('canvas');pc.width=pc.height=512;const pg=pc.getContext('2d');const ptex=new THREE.CanvasTexture(pc);
+const plate=new THREE.Mesh(new THREE.CircleGeometry(R,96).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({map:ptex}));plate.position.y=PLATE_Y;scene.add(plate);
+const rim=new THREE.Mesh(new THREE.RingGeometry(R,R+0.025,96).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({color:0xb8892e}));rim.position.y=PLATE_Y+0.001;scene.add(rim);
+const glow=new THREE.Mesh(new THREE.CircleGeometry(2.6,64).rotateX(-Math.PI/2),new THREE.MeshBasicMaterial({color:0x3a2c18,transparent:true,opacity:0.35}));glow.position.y=PLATE_Y-0.01;scene.add(glow);
+const MODES=[[1,2],[2,3],[1,4],[3,4],[2,5],[3,5],[1,6],[4,5],[3,7],[2,7],[5,6],[4,7]];
+const chl=(x,y,m,n)=>Math.cos(n*Math.PI*x)*Math.cos(m*Math.PI*y)-Math.cos(m*Math.PI*x)*Math.cos(n*Math.PI*y);
+let mi=1;
+function drawPlate(glowAmt){const S=512;const gr=pg.createRadialGradient(S/2,S/2,10,S/2,S/2,S/2);gr.addColorStop(0,'#1c1a18');gr.addColorStop(1,'#0b0a09');pg.fillStyle=gr;pg.fillRect(0,0,S,S);
+  pg.strokeStyle='rgba(255,255,255,0.03)';for(let r=12;r<S/2;r+=5){pg.beginPath();pg.arc(S/2,S/2,r,0,7);pg.stroke();}
+  if(glowAmt>0){const [m,n]=MODES[mi];const id=pg.getImageData(0,0,S,S),d=id.data;for(let py=0;py<S;py+=2)for(let px=0;px<S;px+=2){const x=px/S*2-1,y=py/S*2-1;if(x*x+y*y>1)continue;const f=chl(x,y,m,n);const v=Math.exp(-f*f*60)*glowAmt;if(v<0.03)continue;const h=(Math.atan2(y,x)/Math.PI+1)/2;const c=h<0.33?[214,64,47]:h<0.66?[240,180,41]:[47,154,85];for(let yy=0;yy<2;yy++)for(let xx=0;xx<2;xx++){const k=((py+yy)*S+px+xx)*4;d[k]=Math.min(255,d[k]+c[0]*v);d[k+1]=Math.min(255,d[k+1]+c[1]*v);d[k+2]=Math.min(255,d[k+2]+c[2]*v);}}pg.putImageData(id,0,0);}
+  ptex.needsUpdate=true;}
+drawPlate(0);
+let seedS=7;const rnd=()=>{seedS=(seedS*1664525+1013904223)>>>0;return seedS/4294967296};
+const NODAL=MODES.map(([m,n])=>{const p=[];let tries=0;while(p.length<6000&&tries<200000){tries++;const x=rnd()*2-1,y=rnd()*2-1;if(x*x+y*y>0.93)continue;if(Math.abs(chl(x,y,m,n))<0.035)p.push(x*R,y*R);}return new Float32Array(p);});
+
+/* poses */
+const hint=document.getElementById('hint');
+const buf=await (await fetch('mob-poses.bin')).arrayBuffer();
+const NZ=24000,POSES=16;const PP=new Int16Array(buf,0,POSES*NZ*3);const SH=new Uint8Array(buf,POSES*NZ*3*2,POSES*NZ);const CC=new Uint8Array(buf,POSES*NZ*3*2+POSES*NZ,NZ*3);
+const NPL=20000,N=NZ+NPL;
+const pos=new Float32Array(N*3),vel=new Float32Array(N*3),col=new Float32Array(N*3),shade=new Float32Array(N),seed=new Float32Array(N),pidx=new Uint32Array(N);
+for(let i=0;i<NZ;i++){col[i*3]=CC[i*3]/255;col[i*3+1]=CC[i*3+1]/255;col[i*3+2]=CC[i*3+2]/255;}
+for(let i=NZ;i<N;i++){const r=rnd();const b=r<0.84?[0.86,0.8,0.66]:r<0.9?[0.84,0.25,0.18]:r<0.95?[0.94,0.7,0.16]:[0.2,0.62,0.33];const j=0.8+0.35*rnd();col[i*3]=b[0]*j;col[i*3+1]=b[1]*j;col[i*3+2]=b[2]*j;}
+for(let i=0;i<N;i++){seed[i]=rnd();pidx[i]=Math.floor(rnd()*6000);const nd=NODAL[mi];const k=(pidx[i]%(nd.length/2))*2;pos[i*3]=nd[k]+(rnd()-0.5)*0.5;pos[i*3+1]=PLATE_Y+0.004;pos[i*3+2]=nd[k+1]+(rnd()-0.5)*0.5;shade[i]=0.6+0.3*seed[i];}
+const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));geo.setAttribute('color',new THREE.BufferAttribute(col,3));geo.setAttribute('shade',new THREE.BufferAttribute(shade,1));geo.setAttribute('seed',new THREE.BufferAttribute(seed,1));
+const U={uSize:{value:3.0*DPR},uSpark:{value:0},uTime:{value:0}};
+const pts=new THREE.Points(geo,new THREE.ShaderMaterial({uniforms:U,vertexColors:true,
+vertexShader:`attribute float shade;attribute float seed;uniform float uSize,uSpark,uTime;varying vec3 vC;
+void main(){vec4 mv=modelViewMatrix*vec4(position,1.);gl_Position=projectionMatrix*mv;float sp=step(0.985,fract(seed*91.7+floor(uTime*12.)*0.137))*uSpark;vC=color*shade+vec3(1.,.95,.8)*sp;gl_PointSize=clamp(uSize*(2.6/-mv.z)*(0.75+0.5*fract(seed*13.1)),1.,9.);}`,
+fragmentShader:`varying vec3 vC;void main(){vec2 d=gl_PointCoord-0.5;if(dot(d,d)>0.25)discard;gl_FragColor=vec4(vC,1.);}`}));
+pts.frustumCulled=false;scene.add(pts);
+hint.textContent='Press play, or tap Shake';
+
+/* audio */
+const audio=new Audio('made-of-bass.mp3');audio.crossOrigin='anonymous';audio.preload='auto';
+let actx=null,an=null,fbuf=null;
+function setupAudio(){if(actx)return;actx=new (window.AudioContext||window.webkitAudioContext)();const src=actx.createMediaElementSource(audio);an=actx.createAnalyser();an.fftSize=1024;an.smoothingTimeConstant=0.6;src.connect(an);an.connect(actx.destination);fbuf=new Uint8Array(an.frequencyBinCount);}
+function bassNow(){if(!an||audio.paused)return 0;an.getByteFrequencyData(fbuf);const hz=actx.sampleRate/an.fftSize;let s=0,c=0;for(let i=Math.floor(30/hz);i<=Math.ceil(150/hz);i++){s+=fbuf[i];c++;}return Math.min(1,Math.max(0,(s/c-90)/130));}
+
+/* state */
+let formed=false,poseK=0,poseFrom=0,poseT=1,manual=0,lastBeat=-1,prevBass=0,explode=0,autoStory=true,lastT=performance.now()/1000;
+const btnForm=document.getElementById('form'),btnPlay=document.getElementById('play'),info=document.getElementById('info');
+function setFormed(v){formed=v;btnForm.textContent=v?'Back to sand':'Make Zion';}
+function kickBurst(m){for(let i=0;i<NZ;i++){if(seed[i]>0.35+0.3*m)continue;const k3=i*3;const cx=pos[k3],cz=pos[k3+2];const cy=pos[k3+1]+0.1;const l=Math.hypot(cx,cy,cz)||1;const s=m*(0.5+1.0*seed[i]);vel[k3]+=cx/l*s;vel[k3+1]+=0.6*s;vel[k3+2]+=cz/l*s;}}
+function nextPose(){poseK=(poseK+1)%POSES;}
+document.querySelectorAll('.bar button').forEach(b=>b.addEventListener('click',()=>{hint.style.opacity=0;}));
+document.getElementById('shake').onclick=()=>{manual=1;if(formed){nextPose();kickBurst(0.9);}};
+document.getElementById('mode').onclick=()=>{mi=(mi+1)%MODES.length;drawPlate(audio.paused?0.35:0.6);};
+btnForm.onclick=()=>{autoStory=false;setFormed(!formed);};
+btnPlay.onclick=async()=>{setupAudio();if(actx.state==='suspended')await actx.resume();if(audio.paused){await audio.play();btnPlay.textContent='❚❚ Pause';hint.style.opacity=0;}else{audio.pause();btnPlay.textContent='▶ Play the song';}};
+audio.onended=()=>{btnPlay.textContent='▶ Play the song';autoStory=true;};
+canvas.addEventListener('pointerdown',e=>{downAt=[e.clientX,e.clientY];});let downAt=null;
+canvas.addEventListener('pointerup',e=>{if(downAt&&Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])<6){manual=1;if(formed){nextPose();kickBurst(0.9);}hint.style.opacity=0;}downAt=null;});
+addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();document.getElementById('shake').click();}});
+
+function step(dt){
+  const t=audio.currentTime,playing=!audio.paused;
+  let bass=bassNow();bass=Math.max(bass,manual);manual*=0.85;
+  // story when the song plays
+  if(playing&&autoStory){if(t>=12.3&&t<66&&!formed&&!(t>=54.1&&t<56.2))setFormed(true);if(t>=66&&formed)setFormed(false);}
+  const brk=playing&&t>=54.1&&t<56.2;if(brk&&explode===0){explode=1;kickBurst(2.6);}if(!brk)explode=0;
+  // beat: pose steps on each beat when playing; mode change every 2 bars
+  if(playing){const b=Math.floor((t-B0)/(BEAT/2));if(b!==lastBeat){lastBeat=b;if(formed)nextPose();if(b%16===0&&t>12){mi=(mi+1)%MODES.length;drawPlate(0.6);}}}
+  // kicks from the bass envelope
+  if(bass-prevBass>0.22&&formed&&!brk)kickBurst(Math.min(1.2,bass));prevBass=bass*0.9+prevBass*0.1;
+  const nd=NODAL[mi],nn=nd.length/2,base=poseK*NZ;
+  const ts=brk?0.08:1;
+  for(let i=0;i<N;i++){const k3=i*3;let tx,ty,tz,K,C;
+    if(i<NZ&&formed&&!brk){tx=PP[(base+i)*3]/30000;ty=PP[(base+i)*3+1]/30000;tz=PP[(base+i)*3+2]/30000;K=160;C=22;shade[i]=SH[base+i]/255*1.6;}
+    else if(i<NZ&&brk){tx=pos[k3];ty=pos[k3+1];tz=pos[k3+2];K=0;C=0.4;}
+    else{const k=((pidx[i]+mi*977)%nn)*2;tx=nd[k];tz=nd[k+1];ty=PLATE_Y+0.004;K=10+40*bass;C=6;shade[i]=0.6+0.3*seed[i];
+      if(bass>0.05){vel[k3]+=(rnd()-0.5)*bass*0.9;vel[k3+2]+=(rnd()-0.5)*bass*0.9;}}
+    vel[k3]+=(K*(tx-pos[k3])-C*vel[k3])*dt*ts;vel[k3+1]+=(K*(ty-pos[k3+1])-C*vel[k3+1]-(K===0&&!brk?4:0))*dt*ts;vel[k3+2]+=(K*(tz-pos[k3+2])-C*vel[k3+2])*dt*ts;
+    pos[k3]+=vel[k3]*dt*ts;pos[k3+1]+=vel[k3+1]*dt*ts;pos[k3+2]+=vel[k3+2]*dt*ts;
+    if(pos[k3+1]<PLATE_Y+0.003){pos[k3+1]=PLATE_Y+0.003;vel[k3+1]=Math.abs(vel[k3+1])*0.15;vel[k3]*=0.8;vel[k3+2]*=0.8;}
+    const rr=pos[k3]*pos[k3]+pos[k3+2]*pos[k3+2];if(rr>R*R*1.4){pos[k3]*=0.99;pos[k3+2]*=0.99;}}
+  geo.attributes.position.needsUpdate=true;geo.attributes.shade.needsUpdate=true;
+  U.uSpark.value=Math.min(1,bass*1.4);
+  const [m,n]=MODES[mi];info.innerHTML=`Chladni mode <b>(${m},${n})</b><br>${N.toLocaleString('en-US')} grains · drag to look around`;
+}
+function frame(now){now/=1000;let dt=Math.min(0.033,now-lastT);lastT=now;U.uTime.value=now;
+  // two half steps for stability
+  step(dt/2);step(dt/2);controls.update();renderer.render(scene,cam);requestAnimationFrame(frame);}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
