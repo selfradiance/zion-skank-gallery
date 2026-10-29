@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Zion Skank Gallery</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/brand/icon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/brand/icon-512.png">
+<link rel="apple-touch-icon" href="assets/brand/icon-180.png">
+<meta name="description" content="Zion Skank, the reggae skeleton: every film, and how each one was made.">
+<meta property="og:title" content="Zion Skank Gallery">
+<meta property="og:description" content="Zion Skank, the reggae skeleton: every film, and how each one was made.">
+<meta property="og:image" content="https://selfradiance.github.io/zion-skank-gallery/assets/brand/share.jpg">
+<meta property="og:url" content="https://selfradiance.github.io/zion-skank-gallery/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://selfradiance.github.io/zion-skank-gallery/assets/brand/share.jpg">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +37,7 @@ a{color:inherit}
 header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(15,14,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
 header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
 .brand{font-family:var(--f-display);font-size:22px;letter-spacing:.06em;text-decoration:none;display:flex;gap:10px;align-items:center;white-space:nowrap;flex-shrink:0}
-.brand i{display:inline-block;width:18px;height:18px;border-radius:50%;background:conic-gradient(var(--red) 0 120deg,var(--gold) 0 240deg,var(--green) 0)}
+.brand img{width:30px;height:30px;border-radius:50%;display:block;box-shadow:0 0 0 1px var(--rule)}
 nav{display:flex;gap:18px;flex-wrap:wrap}
 nav a{text-decoration:none;color:var(--dim)} nav a:hover,nav a:focus-visible{color:var(--bone)}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -37,6 +47,8 @@ nav a{text-decoration:none;color:var(--dim)} nav a:hover,nav a:focus-visible{col
 .hero video,.hero img.poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;opacity:.55}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,14,11,.2) 0%,rgba(15,14,11,.55) 55%,var(--ink) 100%)}
 .hero .wrap{position:relative;z-index:1;padding-block:clamp(72px,14vw,150px) 48px}
+h1.mast.banner{margin:0 0 14px;line-height:0}
+h1.mast.banner img{display:block;width:min(100%,980px);height:auto;margin-left:-3%;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55))}
 h1.mast{font-family:var(--f-display);font-weight:400;font-size:clamp(64px,13vw,168px);line-height:.88;letter-spacing:.01em;margin:0 0 18px;text-wrap:balance}
 .lede{font-size:clamp(18px,2.2vw,22px);max-width:34em;margin:0 0 22px}
 .counts{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--gold)}
@@ -109,6 +121,7 @@ button.btn{background:none;color:var(--bone);cursor:pointer}
 .reel.mini{grid-auto-columns:minmax(150px,46%)} .reel.mini.tall{grid-auto-columns:minmax(100px,30%)}
 .channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
 .chan{display:flex;flex-direction:column;gap:8px;padding:22px;border:1px solid var(--rule);background:var(--sleeve);text-decoration:none;min-width:0}
+.chan .av{width:72px;height:72px;border-radius:50%;margin-bottom:6px;box-shadow:0 0 0 1px var(--rule)}
 .chan:hover{border-color:var(--gold)} .chan .n{color:var(--gold)} .chan h3{font-size:34px} .chan p{margin:0;color:var(--dim)} .chan .go{margin-top:auto;padding-top:8px}
 .yt{position:relative;aspect-ratio:16/9;max-width:100%;border:1px solid var(--rule);background:#000}.yt iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .credits{display:flex;flex-wrap:wrap;gap:8px 28px;color:var(--dim)}
@@ -133,7 +146,7 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
 <header class="top">
   <div class="stripe"></div>
   <div class="wrap">
-    <a class="brand" href="#top"><i aria-hidden="true"></i>ZION SKANK</a>
+    <a class="brand" href="#top"><img src="assets/brand/logo-red.jpg" alt="" width="30" height="30">ZION SKANK</a>
     <nav><a href="#films">Films</a><a href="#zion">Meet Zion</a><a href="#how">How they're made</a><a href="#listen">Channels</a></nav>
   </div>
 </header>
@@ -144,7 +157,7 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
     <video id="heroVid" src="assets/hero-loop.mp4" poster="assets/hero-poster.jpg" autoplay muted loop playsinline aria-hidden="true"></video>
     <div class="wrap">
       <div class="mono kicker">One skeleton · every style · reggae films</div>
-      <h1 class="mast">ZION<br>SKANK</h1>
+      <h1 class="mast banner"><img src="assets/brand/banner-strip.png" alt="Zion Skank" width="1600" height="438"></h1>
       <p class="lede">A grinning rasta skeleton in red shades, singing his way through felt towns, anime cities, video games and neon Halloween streets. Songs and direction by James. Each film is produced by Claude, and each has a second cut by ChatGPT or Grok.</p>
       <div class="counts mono"><span>27 films</span><span>56:48 of video</span><span>Sept–Oct 2026</span></div>
     </div>
@@ -187,11 +200,11 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
     <div class="sechead"><h2>Three channels</h2><span class="mono soon">On YouTube</span></div>
     <div class="channels">
       <a class="chan" href="https://www.youtube.com/@ZionSkankFilms" target="_blank" rel="noopener">
-        <span class="mono n">@ZionSkankFilms</span><h3>Zion Skank Films</h3><p>Every film in this catalogue and its shorts: Zion the skeleton in a new world each time, with the Claude and Grok cuts side by side.</p><span class="mono go">Open channel ↗</span></a>
+        <img class="av" src="assets/brand/logo-red.jpg" alt="" width="72" height="72" loading="lazy"><span class="mono n">@ZionSkankFilms</span><h3>Zion Skank Films</h3><p>Every film in this catalogue and its shorts: Zion Skank in a new world each time, with the Claude and Grok cuts side by side.</p><span class="mono go">Open channel ↗</span></a>
       <a class="chan" href="https://www.youtube.com/@zionskank" target="_blank" rel="noopener">
-        <span class="mono n">@zionskank</span><h3>Zion Skank</h3><p>The songs: roots reggae with Zion singing, and the occasional roots music video.</p><span class="mono go">Open channel ↗</span></a>
+        <img class="av" src="assets/brand/logo-green.jpg" alt="" width="72" height="72" loading="lazy"><span class="mono n">@zionskank</span><h3>Zion Skank</h3><p>The songs: roots reggae with Zion singing, and the occasional roots music video.</p><span class="mono go">Open channel ↗</span></a>
       <a class="chan" href="https://www.youtube.com/@zionskankgroove" target="_blank" rel="noopener">
-        <span class="mono n">@zionskankgroove</span><h3>Zion Skank Groove</h3><p>Long instrumental mixes: reggae fused with a different style every time, made for listening and working.</p><span class="mono go">Open channel ↗</span></a>
+        <img class="av" src="assets/brand/logo-gold.jpg" alt="" width="72" height="72" loading="lazy"><span class="mono n">@zionskankgroove</span><h3>Zion Skank Groove</h3><p>Long instrumental mixes: reggae fused with a different style every time, made for listening and working.</p><span class="mono go">Open channel ↗</span></a>
     </div>
   </div></section>
 </main>
