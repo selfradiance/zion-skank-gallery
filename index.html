@@ -159,7 +159,7 @@ dialog::backdrop{background:rgba(0,0,0,.85)}
       <div class="mono kicker">One skeleton · every style · reggae films</div>
       <h1 class="mast banner"><img src="assets/brand/banner-strip.png" alt="Zion Skank" width="1600" height="438"></h1>
       <p class="lede">A grinning rasta skeleton in red shades, singing his way through felt towns, anime cities, video games and neon Halloween streets. Songs and direction by James. Each film is produced by Claude, and each has a second cut by ChatGPT or Grok.</p>
-      <div class="counts mono"><span>30 films</span><span>67:06 of video</span><span>Sept–Nov 2026</span></div>
+      <div class="counts mono"><span id="cFilms"></span><span id="cRuntime"></span><span>Sept–Nov 2026</span></div>
     </div>
   </div>
 
@@ -634,6 +634,11 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'
 const cap=s=>esc(CAP[s]||s.replace(/^Board (\d+) - /,'$1 · ').replace(/_/g,' '));
 const ts=s=>`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
 
+/* Catalogue counts, worked out from FILMS so they can't go stale. */
+(()=>{const secs=FILMS.reduce((t,f)=>{const [m,s]=f.len.split(':').map(Number);return t+m*60+s;},0);
+ const el=id=>document.getElementById(id);
+ if(el('cFilms')) el('cFilms').textContent=FILMS.length+' films';
+ if(el('cRuntime')) el('cRuntime').textContent=Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0')+' of video';})();
 const grid=document.getElementById('grid');
 grid.innerHTML=FILMS.map(f=>`
  <a class="rec open" href="#${f.slug}">
